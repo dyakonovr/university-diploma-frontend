@@ -1,0 +1,1 @@
+export const ERROR_FIELD_CANNOT_BE_EMPTY = 'Поле не может быть пустым';
