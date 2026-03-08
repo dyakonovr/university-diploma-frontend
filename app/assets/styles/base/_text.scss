@@ -1,0 +1,48 @@
+@use '../mixins/text' as mixins;
+
+h1,
+.headline-1 {
+  @include mixins.headline-1;
+}
+
+h2,
+.headline-2 {
+  @include mixins.headline-2;
+}
+
+h3,
+.headline-3 {
+  @include mixins.headline-3;
+}
+
+.text-18 {
+  @include mixins.text-18;
+}
+
+.text-14 {
+  @include mixins.text-14;
+}
+
+.text-12 {
+  @include mixins.text-12;
+}
+
+.weight-300 {
+  font-weight: 300;
+}
+
+.weight-400 {
+  font-weight: 400;
+}
+
+.weight-500 {
+  font-weight: 500;
+}
+
+.weight-600 {
+  font-weight: 600;
+}
+
+.weight-700 {
+  font-weight: 700;
+}

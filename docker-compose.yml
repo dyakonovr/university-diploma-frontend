@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  nuxt:
+    build: .
+    container_name: nuxt4-app
+    restart: unless-stopped
+    ports:
+      - "${EXTERNAL_PORT}:3000"

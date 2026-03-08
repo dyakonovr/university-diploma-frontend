@@ -1,0 +1,91 @@
+@use 'colors' as colors;
+@use 'offsets' as offsets;
+@use 'variables' as variables;
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  --color: #{colors.$text};
+  --background-color: #{colors.$background};
+
+  display: flex;
+  flex-direction: column;
+  font-family: variables.$font-family;
+  font-weight: 400;
+  background-color: var(--background-color);
+  color: var(--color);
+  overflow-x: hidden;
+  min-width: 360px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+[data-theme='dark'] body {
+  --color: #{colors.$white};
+  --background-color: #{colors.$text};
+}
+
+.main {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+#__nuxt {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.main-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+ul,
+ol {
+  padding-left: 1.25em; // отступ под маркер
+  margin: 0.5em 0;
+
+  li {
+    margin: 0.25em 0;
+    line-height: 1.4;
+  }
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+.list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+}
+
+.table-container {
+  overflow-y: auto;
+}

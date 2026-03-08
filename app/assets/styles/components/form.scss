@@ -1,0 +1,23 @@
+@use '../base/colors' as colors;
+
+// Global form item styles
+$form-item-height: 40px;
+$form-item-padding: 8px 10px;
+$form-item-border-width: 1px;
+$form-item-border-radius: 6px;
+$form-item-border-color: colors.$border;
+$form-item-disabled-color: #bbbdc0;
+$form-item-disabled-background-color: colors.$border;
+$form-item-disabled-border-color: #bbbdc0;
+
+// Form Container
+$form-container-fields-gap: 24px;
+$form-container-padding-y: 24px;
+
+$form-container-header-padding: 12px 24px;
+$form-container-divided-header-padding: 24px;
+$form-container-border-color: colors.$border;
+$form-container-blocks-separator: 1px solid $form-container-border-color;
+
+// Custom Form Variables
+$form-etim-code-field-max-width: 200px;

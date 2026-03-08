@@ -1,8 +1,51 @@
 // @ts-check
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
   {
+    ignores: [
+      '/logs',
+      '*.log',
+      'npm-debug.log*',
+      'yarn-debug.log*',
+      'yarn-error.log*',
+      'pids',
+      '*.pid',
+      '*.seed',
+      '*.pid.lock',
+      'lib-cov',
+      'coverage',
+      '.nyc_output',
+      '.grunt',
+      'bower_components',
+      '.lock-wscript',
+      'build/Release',
+      'node_modules/',
+      'jspm_packages',
+      'typings',
+      '.npm',
+      '.eslintcache',
+      '.node_repl_history',
+      '*.tgz',
+      '.yarn-integrity',
+      '.env',
+      '.cache',
+      '.next',
+      '.nuxt',
+      'dist',
+      'public',
+      '.vuepress/dist',
+      '.serverless',
+      '.idea',
+      'sw.*',
+      '.DS_Store',
+      '*.swp'
+    ],
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     rules: {
       'prettier/prettier': 'off',
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -89,7 +132,19 @@ export default withNuxt(
       ],
       'import/no-extraneous-dependencies': 'off',
       'import/no-unresolved': 'off',
-      'import/extensions': 'off'
+      'import/extensions': 'off',
+      'vue/block-order': ['error', {
+        'order': [ 'template', 'script', 'style' ]
+      }],
+      'vue/no-multiple-template-root': 'off',
+
+      /* === СОРТИРОВКА ИМПОРТОВ === */
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+
+      /* отключаем стандартную сортировку, чтобы не конфликтовала */
+      'sort-imports': 'off',
+      '@typescript-eslint/unified-signatures': 'off',
     },
   }  
 );
