@@ -17,14 +17,14 @@
         :to="homeLink"
         color="primary"
         variant="filled">
-        {{ t('errors.goHome') }}
+        Вернуться домой
       </button-ui>
     </div>
 
     <p
       v-if="requestId"
       class="error-content__request-id">
-      {{ t('errors.requestId') }}: {{ requestId }}
+      Request ID: {{ requestId }}
     </p>
   </div>
 </template>
@@ -42,8 +42,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { t } = useI18n();
-
 const requestId = computed(
   () => props.error.data?.requestId as string | undefined,
 );
@@ -55,9 +53,9 @@ const homeLink = computed(() =>
 const title = computed(() => {
   const code = props.error.statusCode;
 
-  if (code === 404) return t('errors.notFound.title');
-  if (code === 403) return t('errors.forbidden.title');
-  if (code && code >= 500) return t('errors.serverError.title');
+  if (code === 404) return 'Страница не найдена';
+  if (code === 403) return 'Доступ запрещён';
+  if (code && code >= 500) return 'Внутренняя ошибка';
 
   return t('errors.unknown.title');
 });
@@ -65,9 +63,9 @@ const title = computed(() => {
 const description = computed(() => {
   const code = props.error.statusCode;
 
-  if (code === 404) return t('errors.notFound.description');
-  if (code === 403) return t('errors.forbidden.description');
-  if (code && code >= 500) return t('errors.serverError.description');
+  if (code === 404) return 'Страница не найдена';
+  if (code === 403) return 'Доступ запрещён';
+  if (code && code >= 500) return 'Внутренняя ошибка';
 
   return t('errors.unknown.description');
 });

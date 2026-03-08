@@ -1,4 +1,4 @@
-import { register, registerVerifyEmail } from '~/domain/user/api/auth.api';
+import { register } from '~/domain/user/api/auth.api';
 import {
   validateUserEmail,
   validateUserPassword,
@@ -20,7 +20,7 @@ import {
 type Form = {
   email: string | null;
   password: string | null;
-  username: string | null;
+  name: string | null;
   /** Отправляется на почту для подтверждения */
   code: string | null;
 };
@@ -36,13 +36,13 @@ function useRegisterForm() {
   const formData = ref<FormFields<Form>>({
     email: null,
     password: null,
-    username: null,
+    name: null,
     code: null,
   });
   const formErrors = ref<FormErrors<Form>>({
     email: '',
     password: '',
-    username: '',
+    name: '',
     code: '',
   });
   const firstStepformRules = ref<FormRules<Form>>({
@@ -58,16 +58,16 @@ function useRegisterForm() {
 
       return res.isValid;
     },
-    username: () => {
-      if (!formData.value.username) {
-        formErrors.value.username = ERROR_REQUIRED_FIELD;
+    name: () => {
+      if (!formData.value.name) {
+        formErrors.value.name = ERROR_REQUIRED_FIELD;
         return false;
       }
       if (
-        formData.value.username.length < 3 ||
-        formData.value.username.length > 30
+        formData.value.name.length < 3 ||
+        formData.value.name.length > 30
       ) {
-        formErrors.value.username = 'Username должен быть от 3 до 30 символов';
+        formErrors.value.name = 'Username должен быть от 3 до 30 символов';
         return false;
       }
       return true;
@@ -99,7 +99,7 @@ function useRegisterForm() {
       await register({
         email: formData.value.email || '',
         password: formData.value.password || '',
-        username: formData.value.username || '',
+        name: formData.value.name || '',
       });
 
       toastSuccess(
@@ -140,11 +140,11 @@ function useRegisterForm() {
 
       loading.value = true;
 
-      await registerVerifyEmail({
-        email: formData.value.email || '',
-        code: formData.value.code || '',
-        username: formData.value.username || '',
-      });
+      // await registerVerifyEmail({
+      //   email: formData.value.email || '',
+      //   code: formData.value.code || '',
+      //   username: formData.value.username || '',
+      // });
 
       toastSuccess('Вы успешно зарегистрировались!');
       router.push('/account');

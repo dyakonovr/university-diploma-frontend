@@ -70,15 +70,15 @@
 </template>
 
 <script setup lang="ts">
+import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
 import TableView from '~/components/list-views/TableView.vue';
 import AccountTableHeader from '~/components/pages/account/AccountTableHeader.vue';
-import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import DialogUi from '~/components/ui/DialogUi.vue';
 import InputUi from '~/components/ui/form/InputUi.vue';
 import SelectUi from '~/components/ui/form/select/SelectUi.vue';
-import TagUi from '~/components/ui/TagUi.vue';
 import TableActionMenu from '~/components/ui/tables/dropdowns/TableActionMenu.vue';
+import TagUi from '~/components/ui/TagUi.vue';
 import { removeMemberFromWorkspace } from '~/domain/workspace/api/workspace-member.api';
 import type { WorkspaceMember, WorkspaceMemberRole } from '~/domain/workspace/models/workspace-member.types';
 import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
@@ -107,7 +107,7 @@ const {
   handleDelete,
   confirmDelete,
 } = useDeleteTableItem<WorkspaceMember>({
-  deleteFunc: (id) => removeMemberFromWorkspace(workspaceId, id) as any,
+  deleteFunc: (id) => removeMemberFromWorkspace(workspaceId, id),
   mapFunc: (el) => el.name || el.email,
   successMessage: 'Участник удалён',
   errorMessage: 'Ошибка при удалении участника',

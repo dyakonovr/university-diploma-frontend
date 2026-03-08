@@ -23,7 +23,7 @@ type Form = {
 };
 
 function useLoginForm() {
-  const { getBack } = useGetBack('/account');
+  const { getBack } = useGetBack('/');
   const { toastSuccess, toastError } = useCustomToast();
 
   const loading = ref(false);

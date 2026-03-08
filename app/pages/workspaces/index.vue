@@ -59,10 +59,6 @@ import type { Workspace } from '~/domain/workspace/models/workspace.types';
 import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
 import { useCustomToast } from '~/shared/composables/useCustomToast';
 
-const PAGE_TITLE = 'Воркспейсы';
-definePageMeta({ title: PAGE_TITLE });
-useAccountSeoTitle(PAGE_TITLE);
-
 const { toastSuccess, toastError } = useCustomToast();
 const router = useRouter();
 
@@ -118,6 +114,11 @@ async function submitCreate() {
 onBeforeMount(async () => {
   await fetchWorkspaces();
 });
+
+// SEO
+const PAGE_TITLE = 'Воркспейсы';
+definePageMeta({ title: PAGE_TITLE });
+useAccountSeoTitle(PAGE_TITLE);
 </script>
 
 <style lang="scss">

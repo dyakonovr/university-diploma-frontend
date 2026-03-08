@@ -37,7 +37,7 @@ export function login(data: LoginRequest) {
 export type RegisterRequest = {
   email: string;
   password: string;
-  username: string;
+  name: string;
 };
 
 export function register(data: RegisterRequest) {

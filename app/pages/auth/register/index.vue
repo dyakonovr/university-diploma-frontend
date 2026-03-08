@@ -18,9 +18,9 @@
     />
 
     <input-ui
-      v-model="formData.username"
+      v-model="formData.name"
       label="Username"
-      :error="formErrors.username"
+      :error="formErrors.name"
       :input-props="{
         placeholder: 'username',
         disabled: loading || isSecondStep,

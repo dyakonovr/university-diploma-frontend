@@ -49,12 +49,9 @@ import { RouterLink } from 'vue-router';
 import LogoFull from '@/assets/logos/logo-artweb.svg';
 import AccountMobileSidebar from '~/components/layouts/account/AccountMobileSidebar.vue';
 import SidebarMenu from '~/components/layouts/account/sidebar/AccountSidebarMenu.vue';
-import BalanceUi from '~/components/ui/BalanceUi.vue';
-import useUserStore from '~/domain/user/stores/user';
 import useSidebarMenuStore from '~/shared/stores/sidebar-menu';
 
 const sidebarMenuStore = useSidebarMenuStore();
-const userStore = useUserStore();
 
 onBeforeUnmount(() => {
   sidebarMenuStore.closeMobile();

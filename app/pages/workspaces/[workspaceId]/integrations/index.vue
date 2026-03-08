@@ -85,15 +85,15 @@
 </template>
 
 <script setup lang="ts">
+import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
 import TableView from '~/components/list-views/TableView.vue';
 import AccountTableHeader from '~/components/pages/account/AccountTableHeader.vue';
-import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import DialogUi from '~/components/ui/DialogUi.vue';
 import InputUi from '~/components/ui/form/InputUi.vue';
 import SelectUi from '~/components/ui/form/select/SelectUi.vue';
-import TagUi from '~/components/ui/TagUi.vue';
 import TableActionMenu from '~/components/ui/tables/dropdowns/TableActionMenu.vue';
+import TagUi from '~/components/ui/TagUi.vue';
 import { deleteIntegration, regenerateIntegrationToken } from '~/domain/integration/api/integration.api';
 import type { Integration } from '~/domain/integration/models/integration.types';
 import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';

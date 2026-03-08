@@ -8,7 +8,7 @@ import { useCustomToast } from './useCustomToast';
 function useDeleteTableItem<T extends { id: number | string }>(options: {
   callbackBeforeConfirm?: () => void | Promise<void>;
   callbackAfterConfirm?: () => void | Promise<void>;
-  deleteFunc: (id: EntityId) => Promise<Response<T>>;
+  deleteFunc: (id: EntityId) => Promise<Response<T>> | Promise<unknown>;
   mapFunc?: (el: T) => string;
   successMessage: string;
   errorMessage: string;
