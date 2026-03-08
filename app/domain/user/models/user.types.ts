@@ -17,7 +17,3 @@ export type User = BaseEntity & UserBase & {
 
   created_at: string;
 };
-
-export type PublicUser = BaseEntity & UserBase & {
-  created_at: string;
-};
