@@ -2,9 +2,7 @@ import type { BaseEntity } from '~/shared/types/core/base-entity.types';
 
 type UserBase = {
   email: string;
-  username: string;
-  is_active: boolean;
-  telegram_id: string | null;
+  name: string;
 };
 
 export type UserCreate = UserBase & {
@@ -12,8 +10,6 @@ export type UserCreate = UserBase & {
 };
 
 export type User = BaseEntity & UserBase & {
-  position: string;
-  roles?: string[];
-
   created_at: string;
+  updated_at: string;
 };

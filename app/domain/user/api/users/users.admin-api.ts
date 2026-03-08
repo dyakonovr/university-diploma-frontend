@@ -9,7 +9,7 @@ export function getUsers(
   signal: AbortSignal | null = null
 ) {
   return request<ResponseWithPagination<User[]>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: '/admin/users',
     method: 'GET',
     params,
@@ -19,7 +19,7 @@ export function getUsers(
 
 export function getUser(id: string, signal: AbortSignal | null = null) {
   return request<Response<User>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: `/admin/users/${id}`,
     method: 'GET',
     signal,
@@ -28,7 +28,7 @@ export function getUser(id: string, signal: AbortSignal | null = null) {
 
 export function createUser(data: UserCreate) {
   return request<Response<User>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: '/admin/users',
     method: 'POST',
     data,
@@ -43,7 +43,7 @@ export function updateUser(
   if (!data.telegram_id) delete data.telegram_id;
 
   return request<Response<User>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: `/admin/users/${id}`,
     method: 'PUT',
     data,
@@ -52,7 +52,7 @@ export function updateUser(
 
 export function deleteUser(id: string) {
   return request<Response<User>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: `/admin/users/${id}`,
     method: 'DELETE',
   });
@@ -60,7 +60,7 @@ export function deleteUser(id: string) {
 
 export function getUserRoles(userId: string) {
   return request<Response<any[]>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: `/admin/users/${userId}/roles`,
     method: 'GET',
   });
@@ -68,7 +68,7 @@ export function getUserRoles(userId: string) {
 
 export function assignRoleToUser(userId: string, roleId: string) {
   return request<Response<any>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: '/admin/users/roles',
     method: 'POST',
     data: {
@@ -80,7 +80,7 @@ export function assignRoleToUser(userId: string, roleId: string) {
 
 export function removeRoleFromUser(userId: string, roleId: string) {
   return request<Response<any>>({
-    baseUrl: 'AUTH',
+    baseUrl: 'MAIN',
     url: '/admin/users/roles',
     method: 'DELETE',
     data: {

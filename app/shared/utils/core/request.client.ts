@@ -11,13 +11,13 @@ import type {
 export const API_PREFIX = '/api/v1';
 
 export const API_BASES = {
-  AUTH: import.meta.env.VITE_APP_AUTH_API_URL,
-  MODEL_PROVIDER: import.meta.env.VITE_APP_MODEL_PROVIDER_API_URL,
-  FLOW: import.meta.env.VITE_APP_FLOW_API_URL,
-  SUBSCRIPTION: import.meta.env.VITE_APP_SUBSCRIPTION_API_URL,
-  NEWS: import.meta.env.VITE_APP_NEWS_API_URL,
-  SOCIAL_ACCOUNT: import.meta.env.VITE_APP_SOCIAL_ACCOUNT_API_URL,
-  SOCIAL_POST: import.meta.env.VITE_APP_SOCIAL_POST_API_URL,
+  MAIN: import.meta.env.VITE_APP_MAIN_API_URL,
+  // MODEL_PROVIDER: import.meta.env.VITE_APP_MODEL_PROVIDER_API_URL,
+  // FLOW: import.meta.env.VITE_APP_FLOW_API_URL,
+  // SUBSCRIPTION: import.meta.env.VITE_APP_SUBSCRIPTION_API_URL,
+  // NEWS: import.meta.env.VITE_APP_NEWS_API_URL,
+  // SOCIAL_ACCOUNT: import.meta.env.VITE_APP_SOCIAL_ACCOUNT_API_URL,
+  // SOCIAL_POST: import.meta.env.VITE_APP_SOCIAL_POST_API_URL,
 } as const;
 
 type RequestOptions = {

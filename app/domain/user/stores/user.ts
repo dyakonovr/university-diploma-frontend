@@ -45,7 +45,7 @@ const useUserStore = defineStore('user', {
 
     changeUserData(newData: User | null) {
       this.user = newData;
-      this.isAdmin = newData?.roles?.includes('admin') ?? false;
+      // this.isAdmin = newData?.roles?.includes('admin') ?? false;
     },
   },
 });
