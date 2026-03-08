@@ -1,0 +1,56 @@
+@use '../base/offsets' as offsets;
+@use '../base/colors' as colors;
+
+.auth {
+  background-color: colors.$primary-normal;
+  height: 100%;
+
+  &__form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    background-color: colors.$white;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    max-width: 433px; // 385 + 24 * 2
+    width: 100%;
+    padding: offsets.$offset-24;
+  }
+
+  &__title {
+    margin: 0 0 44px;
+    text-align: center;
+  }
+
+  &__input-wrapper {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin: 0 0 offsets.$offset-12;
+    }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: offsets.$offset-12;
+    flex-wrap: wrap;
+  }
+
+  &__link {
+    &:only-child { // Если элемент один в списке
+      margin: 0 0 0 auto;
+    }
+  }
+
+  &__button {
+    margin: offsets.$offset-12 0 0;
+  }
+}

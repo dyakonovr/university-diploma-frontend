@@ -1,0 +1,26 @@
+// Классы для <transition> Vue
+
+// Accordion animation
+.accordion-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.accordion-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.accordion-enter-from,
+.accordion-leave-to {
+  opacity: 0;
+}
+
+/* Анимация fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
