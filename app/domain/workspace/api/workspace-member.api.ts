@@ -1,6 +1,8 @@
-import request from "~/shared/utils/core/request.client";
-import type { WorkspaceMemberRole } from "../models/workspace-member.types";
-import type { EntityId } from "~/shared/types/core/base-entity.types";
+import type { EntityId } from '~/shared/types/core/base-entity.types';
+import type { QueryParams, ResponseWithPagination } from '~/shared/types/core/request.types';
+import request from '~/shared/utils/core/request.client';
+
+import type { WorkspaceMember, WorkspaceMemberRole } from '../models/workspace-member.types';
 
 type InviteMemberRequest = {
   user_id: EntityId;
@@ -21,5 +23,15 @@ export function removeMemberFromWorkspace(workspaceId: EntityId, userId: EntityI
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/members/${userId}`,
     method: 'DELETE',
+  });
+}
+
+export function getWorkspaceMembers(workspaceId: EntityId, params?: QueryParams, signal: AbortSignal | null = null) {
+  return request<ResponseWithPagination<WorkspaceMember[]>>({
+    baseUrl: 'MAIN',
+    url: `/workspaces/${workspaceId}/members`,
+    method: 'GET',
+    params,
+    signal,
   });
 }

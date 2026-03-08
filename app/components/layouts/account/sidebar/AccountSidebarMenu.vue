@@ -74,6 +74,12 @@ export type SidebarMenuRouteWithChildren =
       route: RouteRecordRaw | null;
     }
   | {
+      type: 'workspace-route';
+      icon: SidebarIcon;
+      workspacePath: string;
+      title: string;
+    }
+  | {
       type: 'action';
       actionKey: string;
       actionTitle: string;
@@ -117,6 +123,14 @@ function includeRouteToChildren(
         type: 'route',
         icon: groupItem.icon,
         route: getRouteByName(groupItem.routeName, allRoutes),
+      };
+
+    case 'workspace-route':
+      return {
+        type: 'workspace-route',
+        icon: groupItem.icon,
+        workspacePath: groupItem.workspacePath,
+        title: groupItem.title,
       };
 
     default:

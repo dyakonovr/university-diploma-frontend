@@ -9,6 +9,13 @@ export type SidebarMenuRouteItem = {
   icon: SidebarIcon;
 };
 
+export type SidebarMenuWorkspaceRouteItem = {
+  type: 'workspace-route';
+  workspacePath: string;  // e.g., '' for dashboard, '/tasks', '/commands'
+  title: string;
+  icon: SidebarIcon;
+};
+
 export type SidebarMenuActionItem = {
   type: 'action';
   actionKey: string;
@@ -20,6 +27,7 @@ export type SidebarMenuActionItem = {
 
 export type SidebarMenuGroupChildren =
   | SidebarMenuRouteItem
+  | SidebarMenuWorkspaceRouteItem
   | SidebarMenuActionItem;
 
 export type SidebarMenuGroup = {
@@ -28,4 +36,5 @@ export type SidebarMenuGroup = {
   children: SidebarMenuGroupChildren[];
   toBottom?: boolean;
   adminOnly?: boolean;
+  workspaceOnly?: boolean;  // only show when in a workspace context
 };

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="visibleChildren.length"
+    v-if="isVisible"
     class="sidebar-menu-group"
     :class="{
       'sidebar-menu-group--bottom': group.toBottom,
@@ -46,9 +46,22 @@
           </template>
         </sidebar-menu-item>
 
+        <!-- Кнопка = workspace-route -->
+        <sidebar-menu-item
+          v-else-if="child.type === 'workspace-route'"
+          :collapsed="isCollapsed"
+          :title="child.title"
+          :active="isButtonActive(`${workspaceBasePath}${child.workspacePath}`)"
+          :to="`${workspaceBasePath}${child.workspacePath}`"
+        >
+          <template #icon>
+            <component :is="child.icon" />
+          </template>
+        </sidebar-menu-item>
+
         <!-- Кнопка = action -->
         <sidebar-menu-item
-          v-if="child.type === 'action'"
+          v-else-if="child.type === 'action'"
           :collapsed="isCollapsed"
           :title="
             !isCollapsed && child.actionAltTitle
@@ -119,13 +132,25 @@ function isAdminRoute(r: RouteRecordRaw): boolean {
   return false;
 }
 
+const currentWorkspaceId = computed(() => route.params.workspaceId as string | undefined);
+
+const workspaceBasePath = computed(() =>
+  currentWorkspaceId.value ? `/workspaces/${currentWorkspaceId.value}` : '/workspaces',
+);
+
 const visibleChildren = computed(() =>
   props.group.children.filter((child) => {
     if (child.type === 'action') return true;
+    if (child.type === 'workspace-route') return true;
     if (!child.route) return false;
     return !isAdminRoute(child.route) || userStore.isAdmin;
   }),
 );
+
+const isVisible = computed(() => {
+  if (props.group.workspaceOnly && !currentWorkspaceId.value) return false;
+  return visibleChildren.value.length > 0;
+});
 
 function isButtonActive(currentRoutePath: string) {
   const normalizedTo = currentRoutePath.endsWith('/')
@@ -135,8 +160,8 @@ function isButtonActive(currentRoutePath: string) {
     ? route.path.slice(0, -1)
     : route.path;
 
-  // Для корневого /account — только точное совпадение
-  if (normalizedTo === '/account') {
+  // Для корневого /account и корня воркспейса — только точное совпадение
+  if (normalizedTo === '/account' || /^\/workspaces\/[^/]+$/.test(normalizedTo)) {
     return normalizedPath === normalizedTo;
   }
 

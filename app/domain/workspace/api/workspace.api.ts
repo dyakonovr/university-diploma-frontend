@@ -17,6 +17,16 @@ export function getWorkspaces(
   });
 }
 
+export function getMyWorkspaces(params?: QueryParams, signal: AbortSignal | null = null) {
+  return request<ResponseWithPagination<Workspace[]>>({
+    baseUrl: 'MAIN',
+    url: `/workspaces`,
+    method: 'GET',
+    params,
+    signal,
+  });
+}
+
 export function getWorkspace(id: EntityId, signal: AbortSignal | null = null) {
   return request<Response<Workspace>>({
     baseUrl: 'MAIN',
