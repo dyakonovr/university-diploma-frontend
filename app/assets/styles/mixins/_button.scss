@@ -1,0 +1,45 @@
+@mixin button-variant(
+  $bg,
+  $text,
+  $border,
+  $hover-bg,
+  $hover-text,
+  $hover-border,
+  $disabled-bg,
+  $disabled-border: null,
+  $disabled-text: null
+) {
+  background-color: $bg;
+  color: $text;
+  border-color: $border;
+
+  &:not(:disabled):not(.no-hover) {
+    &:hover,
+    &:active {
+      background-color: $hover-bg;
+      color: $hover-text;
+      @if $hover-border != null {
+        border-color: $hover-border;
+      } @else {
+        border-color: $border;
+      }
+    }
+  }
+
+  &:disabled {
+    background-color: $disabled-bg;
+    @if $disabled-border != null {
+      border-color: $disabled-border;
+    } @else {
+      border-color: $border;
+    }
+
+    @if $disabled-text != null {
+      color: $disabled-text;
+    } @else {
+      color: $text;
+    }
+
+    cursor: not-allowed;
+  }
+}

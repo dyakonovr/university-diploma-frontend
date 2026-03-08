@@ -1,0 +1,67 @@
+@use '/assets/styles/base/colors' as colors;
+@use '/assets/styles/base/offsets' as offsets;
+
+.rich-content {
+  line-height: 1.7;
+
+  // Reset h1 inside user content so it doesn't break page headings
+  h1 {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: offsets.$offset-24;
+    margin-bottom: offsets.$offset-8;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: offsets.$offset-24;
+    margin-bottom: offsets.$offset-8;
+  }
+
+  p {
+    margin-bottom: offsets.$offset-16;
+  }
+
+  ul,
+  ol {
+    margin-bottom: offsets.$offset-16;
+    padding-left: offsets.$offset-24;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  a {
+    color: colors.$primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .rich-content-label {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 4px 0;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: colors.$background;
+    color: colors.$text-light;
+    border: 1px solid colors.$border;
+  }
+}
+
+[data-theme='dark'] .rich-content {
+  .rich-content-label {
+    background-color: colors.$dark-grey;
+    border-color: colors.$dark-grey;
+  }
+}

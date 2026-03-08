@@ -1,0 +1,2 @@
+/** ВАЖНО: TabEtimValue должен быть в формате `camelCase`, т.к. на его основе формируются `slots` компонента */
+export type TabItem<TabItemValue extends string = string> = { label: string; value: TabItemValue; visible?: boolean };
