@@ -1,8 +1,8 @@
 <template>
-  <nuxt-layout :name="layoutName">
+  <nuxt-layout :name="'default'">
     <error-content
       :error="error"
-      :variant="isAccountRoute ? 'account' : 'landing'"
+      :variant="'account'"
     />
   </nuxt-layout>
 </template>
@@ -16,8 +16,4 @@ type Props = {
 };
 
 defineProps<Props>();
-
-const requestUrl = useRequestURL();
-const isAccountRoute = requestUrl.pathname.startsWith('/account');
-const layoutName = isAccountRoute ? 'account' : 'landing';
 </script>

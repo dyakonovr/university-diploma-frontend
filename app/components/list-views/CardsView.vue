@@ -1,12 +1,11 @@
 <template>
   <section class="cards-view">
-    <div
-      v-if="data.length"
-      class="cards-view__list">
-      <nuxt-link
+    <div v-if="data.length" class="cards-view__list">
+      <component
+        :is="cardLink ? NuxtLink : 'div'"
         v-for="(item, itemIdx) in data"
         :key="item.id"
-        :to="cardLink(item)"
+        :to="cardLink ? cardLink(item) : undefined"
       >
         <li class="cards-view__card">
           <div
@@ -14,27 +13,19 @@
             class="cards-view__card-actions"
             @click.stop.prevent
           >
-            <slot
-              name="actions"
-              v-bind="{ item, itemIdx }" />
+            <slot name="actions" v-bind="{ item, itemIdx }" />
           </div>
           <p class="weight-500">
-            <slot
-              name="title"
-              v-bind="{ item, itemIdx }" />
+            <slot name="title" v-bind="{ item, itemIdx }" />
           </p>
           <div class="text-14 cards-view__card-body">
-            <slot
-              name="body"
-              v-bind="{ item, itemIdx }" />
+            <slot name="body" v-bind="{ item, itemIdx }" />
           </div>
         </li>
-      </nuxt-link>
+      </component>
     </div>
 
-    <div
-      v-if="loading && !data.length"
-      class="cards-view__loading">
+    <div v-if="loading && !data.length" class="cards-view__loading">
       <spinner-ui />
     </div>
 
@@ -43,13 +34,11 @@
       class="cards-view__empty"
       v-html="emptyHtml"
     />
-    <p
-      v-else-if="!loading && !data.length"
-      class="cards-view__empty">Нет данных</p>
+    <p v-else-if="!loading && !data.length" class="cards-view__empty">
+      Нет данных
+    </p>
 
-    <div
-      v-if="withPagination"
-      class="cards-view__pagination">
+    <div v-if="withPagination" class="cards-view__pagination">
       <pagination-ui
         v-if="withPagination && data.length"
         v-model:current-page="currentPage"
@@ -63,14 +52,15 @@
 </template>
 
 <script lang="ts" setup generic="T extends { id: EntityId }">
-import type { EntityId } from '~/shared/types/core/base-entity.types';
+import type { EntityId } from "~/shared/types/core/base-entity.types";
 
-import PaginationUi from '../ui/pagination/PaginationUi.vue';
-import SpinnerUi from '../ui/SpinnerUi.vue';
+import PaginationUi from "../ui/pagination/PaginationUi.vue";
+import SpinnerUi from "../ui/SpinnerUi.vue";
+import { NuxtLink } from "#components";
 
 type Props = {
   data: T[];
-  cardLink: (item: T) => string;
+  cardLink?: ((item: T) => string) | null;
 
   loading?: boolean;
   /** Текст, который отображается при отсутствии данных (v-html) */
@@ -81,6 +71,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+  cardLink: null,
   loading: false,
   emptyHtml: null,
   withPagination: true,
@@ -90,7 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
 const route = useRoute();
 const router = useRouter();
 
-const currentPage = defineModel<number>('currentPage', { default: 1 });
+const currentPage = defineModel<number>("currentPage", { default: 1 });
 
 const setCurrentPageToUrl = (value: number) => {
   if (!props.withPagination) return;
@@ -110,9 +101,9 @@ const onCurrentPageChange = (value: number) => {
 </script>
 
 <style lang="scss" scoped>
-@use '/assets/styles/base/colors' as colors;
-@use '/assets/styles/base/offsets' as offsets;
-@use '/assets/styles/mixins/other' as mixins;
+@use "/assets/styles/base/colors" as colors;
+@use "/assets/styles/base/offsets" as offsets;
+@use "/assets/styles/mixins/other" as mixins;
 
 .cards-view {
   display: flex;
@@ -152,7 +143,7 @@ const onCurrentPageChange = (value: number) => {
     height: 100%;
     overflow: hidden;
     background-color: colors.$white;
-    background-image: url('/images/account/prompt-list-item-bg.png');
+    background-image: url("/images/account/prompt-list-item-bg.png");
     box-shadow: 0px 7px 15px 0px #00000008;
     transition:
       border-color 0.3s ease-in-out,
@@ -168,7 +159,7 @@ const onCurrentPageChange = (value: number) => {
 
     &--extra {
       background:
-        url('/images/account/prompt-list-item-extra-bg.png'),
+        url("/images/account/prompt-list-item-extra-bg.png"),
         linear-gradient(
           109.45deg,
           rgba(28, 67, 255, 0.09),

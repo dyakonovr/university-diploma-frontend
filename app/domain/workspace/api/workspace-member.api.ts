@@ -29,7 +29,7 @@ export function removeMemberFromWorkspace(workspaceId: EntityId, userId: EntityI
 export function getWorkspaceMembers(workspaceId: EntityId, params?: QueryParams, signal: AbortSignal | null = null) {
   return request<ResponseWithPagination<WorkspaceMember[]>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/members`,
+    url: `/workspaces/${workspaceId}/employees`,
     method: 'GET',
     params,
     signal,

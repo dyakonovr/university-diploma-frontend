@@ -160,8 +160,8 @@ function isButtonActive(currentRoutePath: string) {
     ? route.path.slice(0, -1)
     : route.path;
 
-  // Для корневого /account и корня воркспейса — только точное совпадение
-  if (normalizedTo === '/account' || /^\/workspaces\/[^/]+$/.test(normalizedTo)) {
+  // Для списка воркспейсов и корня воркспейса — только точное совпадение
+  if (/^\/workspaces(\/[^/]+)?$/.test(normalizedTo)) {
     return normalizedPath === normalizedTo;
   }
 

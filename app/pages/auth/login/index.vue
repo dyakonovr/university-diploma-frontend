@@ -41,11 +41,11 @@
   </form>
 
   <div class="auth-page__links">
-    <nuxt-link
+    <!-- <nuxt-link
       to="/auth/forgot-password"
       class="auth-page__link">
       Восстановление пароля
-    </nuxt-link>
+    </nuxt-link> -->
     <nuxt-link
       to="/auth/register"
       class="auth-page__link">

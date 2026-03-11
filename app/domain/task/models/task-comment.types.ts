@@ -1,13 +1,12 @@
-import type { BaseEntity, EntityId } from "~/shared/types/core/base-entity.types";
+import type { BaseEntity, EntityId } from '~/shared/types/core/base-entity.types';
 
-type TaskCommentBase = {
-  taskId: EntityId;
+export type TaskCommentCreate = {
   content: string;
 };
 
-export type TaskCommentCreate = TaskCommentBase;
-
-export type TaskComment = BaseEntity & TaskCommentBase & {
-  author_id: EntityId;
-  created_at: string;
+export type TaskComment = BaseEntity & {
+  taskId: EntityId;
+  authorId: EntityId;
+  content: string;
+  createdAt: string;
 };

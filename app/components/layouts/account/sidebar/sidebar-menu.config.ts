@@ -20,7 +20,7 @@ export const SIDEBAR_MENU_GROUPS: SidebarMenuGroup[] = [
     children: [
       {
         type: 'route',
-        routeName: 'workspaces',
+        routeName: 'index-workspaces',
         icon: GridIcon,
       },
     ],
@@ -85,12 +85,12 @@ export const SIDEBAR_MENU_GROUPS: SidebarMenuGroup[] = [
     children: [
       {
         type: 'route',
-        routeName: 'settings',
+        routeName: 'index-settings',
         icon: SettingsIcon,
       },
       {
         type: 'route',
-        routeName: 'profile',
+        routeName: 'index-profile',
         icon: ProfileIcon,
       },
       {

@@ -23,7 +23,7 @@
           </button>
 
           <router-link
-            to="/account"
+            to="/workspaces"
             class="account-layout__mobile-logo"
           >
             <logo-full class="account-layout__mobile-logo-svg" />

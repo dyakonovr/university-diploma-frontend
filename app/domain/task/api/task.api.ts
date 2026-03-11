@@ -43,7 +43,7 @@ export function updateTask(
   return request<Response<Task>>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/tasks/${id}`,
-    method: 'PUT',
+    method: 'PATCH',
     data,
   });
 }

@@ -16,7 +16,7 @@
         >
           <div class="account-mobile-sidebar__header">
             <router-link
-              to="/account"
+              to="/workspaces"
               @click="sidebarMenuStore.closeMobile()"
             >
               <logo-full class="account-mobile-sidebar__logo" />
@@ -37,10 +37,7 @@
             </button>
           </div>
 
-          <div
-            class="account-mobile-sidebar__body"
-            @click="onBodyClick"
-          >
+          <div class="account-mobile-sidebar__body" @click="onBodyClick">
             <sidebar-menu force-expanded />
           </div>
         </div>
@@ -50,25 +47,25 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
 
-import LogoFull from '@/assets/logos/logo-artweb.svg';
-import SidebarMenu from '~/components/layouts/account/sidebar/AccountSidebarMenu.vue';
-import useSidebarMenuStore from '~/shared/stores/sidebar-menu';
+import LogoFull from "@/assets/logos/logo-secretary.svg";
+import SidebarMenu from "~/components/layouts/account/sidebar/AccountSidebarMenu.vue";
+import useSidebarMenuStore from "~/shared/stores/sidebar-menu";
 
 const sidebarMenuStore = useSidebarMenuStore();
 
 const onBodyClick = (e: MouseEvent) => {
   const target = e.target as HTMLElement;
-  if (target.closest('a') || target.closest('button.is-action')) {
+  if (target.closest("a") || target.closest("button.is-action")) {
     sidebarMenuStore.closeMobile();
   }
 };
 </script>
 
 <style lang="scss">
-@use '/assets/styles/base/colors' as colors;
-@use '/assets/styles/components/sidebar' as sidebar;
+@use "/assets/styles/base/colors" as colors;
+@use "/assets/styles/components/sidebar" as sidebar;
 
 .account-mobile-sidebar {
   position: fixed;

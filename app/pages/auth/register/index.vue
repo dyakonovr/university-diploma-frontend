@@ -13,17 +13,17 @@
       :input-props="{
         type: 'email',
         placeholder: 'your@email.com',
-        disabled: loading || isSecondStep,
+        disabled: loading,
       }"
     />
 
     <input-ui
       v-model="formData.name"
-      label="Username"
+      label="ФИО"
       :error="formErrors.name"
       :input-props="{
-        placeholder: 'username',
-        disabled: loading || isSecondStep,
+        placeholder: 'Иванов Иван Иванович',
+        disabled: loading,
       }"
     />
 
@@ -34,17 +34,6 @@
       :input-props="{
         type: 'password',
         placeholder: '••••••••',
-        disabled: loading || isSecondStep,
-      }"
-    />
-
-    <input-ui
-      v-if="isSecondStep"
-      v-model="formData.code"
-      label="Код из письма"
-      :error="formErrors.code"
-      :input-props="{
-        placeholder: '123456',
         disabled: loading,
       }"
     />
@@ -57,7 +46,7 @@
       :disabled="loading"
       class="auth-page__submit"
     >
-      {{ !isSecondStep ? 'Зарегистрироваться' : 'Подтвердить' }}
+      Зарегистрироваться
     </button-ui>
   </form>
 
@@ -76,6 +65,6 @@ import InputUi from '~/components/ui/form/InputUi.vue';
 
 import useRegisterForm from './_composables/useRegisterForm';
 
-const { formData, formErrors, loading, isSecondStep, handleSubmitForm } =
+const { formData, formErrors, loading, handleSubmitForm } =
   useRegisterForm();
 </script>

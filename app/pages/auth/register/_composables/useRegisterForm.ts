@@ -21,8 +21,6 @@ type Form = {
   email: string | null;
   password: string | null;
   name: string | null;
-  /** Отправляется на почту для подтверждения */
-  code: string | null;
 };
 
 function useRegisterForm() {
@@ -31,19 +29,16 @@ function useRegisterForm() {
   const router = useRouter();
 
   const loading = ref(false);
-  const isSecondStep = ref(false);
 
   const formData = ref<FormFields<Form>>({
     email: null,
     password: null,
     name: null,
-    code: null,
   });
   const formErrors = ref<FormErrors<Form>>({
     email: '',
     password: '',
     name: '',
-    code: '',
   });
   const firstStepformRules = ref<FormRules<Form>>({
     email: () => {
@@ -73,16 +68,6 @@ function useRegisterForm() {
       return true;
     },
   });
-  const secondStepFormRules = ref<FormRules<Form>>({
-    code: () => {
-      if (!formData.value.code) {
-        formErrors.value.code = ERROR_REQUIRED_FIELD;
-        return false;
-      }
-
-      return true;
-    },
-  });
 
   const handleRegister = async () => {
     try {
@@ -103,9 +88,9 @@ function useRegisterForm() {
       });
 
       toastSuccess(
-        'Для подтверждения аккаунта нужно ввести код из письма, который был отправлен вам на почту',
+        'Вы успешно зарегистрировались!',
       );
-      isSecondStep.value = true;
+      router.push('/auth/login');
     } catch (e) {
       if (!(e instanceof RequestError)) {
         console.error('Error in register:', e);
@@ -125,47 +110,14 @@ function useRegisterForm() {
     }
   };
 
-  const handleVerify = async () => {
-    try {
-      clearFormValidation(formErrors.value);
-
-      const valid = validateForm({
-        ...firstStepformRules.value,
-        ...secondStepFormRules.value,
-      });
-      if (!valid) {
-        toastError('Ошибка валидации');
-        return;
-      }
-
-      loading.value = true;
-
-      // await registerVerifyEmail({
-      //   email: formData.value.email || '',
-      //   code: formData.value.code || '',
-      //   username: formData.value.username || '',
-      // });
-
-      toastSuccess('Вы успешно зарегистрировались!');
-      router.push('/account');
-    } catch (error) {
-      console.error('Register error:', error);
-      toastError('Ошибка при регистрации');
-    } finally {
-      loading.value = false;
-    }
-  };
-
   const handleSubmitForm = async () => {
-    if (!isSecondStep.value) await handleRegister();
-    else handleVerify();
+    await handleRegister();
   };
 
   return {
     formData,
     formErrors,
     loading,
-    isSecondStep,
     handleSubmitForm,
   };
 }

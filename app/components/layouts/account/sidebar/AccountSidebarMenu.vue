@@ -1,11 +1,7 @@
 <template>
-  <nav
-    class="sidebar-menu"
-    :class="{ 'sidebar-menu--collapsed': isCollapsed }">
+  <nav class="sidebar-menu" :class="{ 'sidebar-menu--collapsed': isCollapsed }">
     <!-- Logo -->
-    <router-link
-      to="/account"
-      class="sidebar-menu__logo-link">
+    <router-link to="/workspaces" class="sidebar-menu__logo-link">
       <div class="sidebar-menu__logo-wrapper">
         <component
           :is="isCollapsed ? LogoCollapsed : LogoFull"
@@ -43,18 +39,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue';
-import { type RouteRecordRaw, RouterLink, useRouter } from 'vue-router';
+import type { Component } from "vue";
+import { type RouteRecordRaw, RouterLink, useRouter } from "vue-router";
 
-import LogoFull from '@/assets/logos/logo-artweb.svg';
-import LogoCollapsed from '@/assets/logos/logo-aw.svg';
-import useSidebarMenuStore from '~/shared/stores/sidebar-menu';
+import LogoFull from "@/assets/logos/logo-secretary.svg";
+import LogoCollapsed from "@/assets/logos/logo-secretary-collapsed.svg";
+import useSidebarMenuStore from "~/shared/stores/sidebar-menu";
 
-import SidebarMenuGroup from './AccountSidebarMenuGroup.vue';
+import SidebarMenuGroup from "./AccountSidebarMenuGroup.vue";
 import type {
   SidebarMenuGroup as SidebarMenuGroupType,
   SidebarMenuGroupChildren,
-} from './sidebar-menu.types';
+} from "./sidebar-menu.types";
 
 type Props = {
   forceExpanded?: boolean;
@@ -69,18 +65,18 @@ type SidebarIcon = Component | string;
 /* ---------- Тип для готового меню ---------- */
 export type SidebarMenuRouteWithChildren =
   | {
-      type: 'route';
+      type: "route";
       icon: SidebarIcon;
       route: RouteRecordRaw | null;
     }
   | {
-      type: 'workspace-route';
+      type: "workspace-route";
       icon: SidebarIcon;
       workspacePath: string;
       title: string;
     }
   | {
-      type: 'action';
+      type: "action";
       actionKey: string;
       actionTitle: string;
       actionAltTitle?: string;
@@ -95,7 +91,7 @@ const isCollapsed = computed(
   () => !props.forceExpanded && sidebarMenuStore.isCollapsed,
 );
 
-provide('sidebar-collapsed', isCollapsed);
+provide("sidebar-collapsed", isCollapsed);
 
 function getRouteByName(name: string, allRoutes: RouteRecordRaw[]) {
   const rt = allRoutes.find((r) => r.name === name);
@@ -108,9 +104,9 @@ function includeRouteToChildren(
   allRoutes: RouteRecordRaw[],
 ): SidebarMenuRouteWithChildren {
   switch (groupItem.type) {
-    case 'action':
+    case "action":
       return {
-        type: 'action',
+        type: "action",
         actionKey: groupItem.actionKey,
         actionTitle: groupItem.actionTitle,
         actionAltTitle: groupItem.actionAltTitle,
@@ -118,30 +114,30 @@ function includeRouteToChildren(
         actionItemClass: groupItem.actionItemClass,
       };
 
-    case 'route':
+    case "route":
       return {
-        type: 'route',
+        type: "route",
         icon: groupItem.icon,
         route: getRouteByName(groupItem.routeName, allRoutes),
       };
 
-    case 'workspace-route':
+    case "workspace-route":
       return {
-        type: 'workspace-route',
+        type: "workspace-route",
         icon: groupItem.icon,
         workspacePath: groupItem.workspacePath,
         title: groupItem.title,
       };
 
     default:
-      return { type: 'route', icon: '', route: null };
+      return { type: "route", icon: "", route: null };
   }
 }
 
 /* ---------------- Sidebar items ---------------- */
 export type SidebarMenuFormattedGroup = Omit<
   SidebarMenuGroupType,
-  'children'
+  "children"
 > & {
   children: SidebarMenuRouteWithChildren[];
 };
@@ -164,7 +160,7 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss">
-@use '/assets/styles/components/sidebar' as sidebar;
+@use "/assets/styles/components/sidebar" as sidebar;
 
 .sidebar-menu {
   display: flex;

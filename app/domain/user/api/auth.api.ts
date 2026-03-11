@@ -15,7 +15,7 @@ export function refreshTokens() {
 export function getCurrentUser() {
   return request<{ data: User }>({
     baseUrl: 'MAIN',
-    url: '/me',
+    url: '/auth/me',
     method: 'GET',
   });
 }

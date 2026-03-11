@@ -1,11 +1,11 @@
-import { computed, type MaybeRefOrGetter, ref, toValue, watch } from 'vue';
+import { computed, type MaybeRefOrGetter, ref, toValue, watch } from "vue";
 
-import { useHead } from '#imports';
+import { useHead } from "#imports";
 
-const ACCOUNT_TITLE_SUFFIX = 'Личный кабинет Artweb';
+const ACCOUNT_TITLE_SUFFIX = "Secretary AI";
 
 /**
- * Sets the browser `<title>` with the account suffix: `${title} - Личный кабинет Artweb`.
+ * Sets the browser `<title>` with the account suffix: `${title} - Secretary AI`.
  * Does NOT affect `route.meta.title` — breadcrumbs and sidebar keep using `definePageMeta`.
  *
  * @param title - Static string, ref, computed, or getter returning the title.
@@ -33,7 +33,7 @@ function useAccountSeoTitle(
   title: MaybeRefOrGetter<string | null | undefined>,
   options?: { fallback?: string; snapshot?: boolean },
 ) {
-  const { fallback = '', snapshot = false } = options ?? {};
+  const { fallback = "", snapshot = false } = options ?? {};
 
   const snapshotValue = ref<string | null>(null);
 
