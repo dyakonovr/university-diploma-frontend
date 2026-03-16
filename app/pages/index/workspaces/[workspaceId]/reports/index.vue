@@ -3,41 +3,69 @@
     <div class="reports-page__header">
       <h2 class="reports-page__title">Отчёты</h2>
       <button-ui
-        :loading="generating"
-        @click="generateReport"
+        variant="outlined"
+        :to="`/workspaces/${workspaceId}/reports/presets`"
       >
-        Сгенерировать AI отчёт
+        Управление пресетами
       </button-ui>
     </div>
 
-    <loading-wrapper :loading="loading">
-      <div class="reports-page__stats">
-        <div class="ws-stat-card">
-          <div class="ws-stat-card__value">{{ stats.total }}</div>
-          <div class="ws-stat-card__label">Всего задач</div>
-        </div>
-        <div class="ws-stat-card">
-          <div class="ws-stat-card__value">{{ stats.done }}</div>
-          <div class="ws-stat-card__label">Выполнено</div>
-        </div>
-        <div class="ws-stat-card">
-          <div class="ws-stat-card__value">{{ stats.inProgress }}</div>
-          <div class="ws-stat-card__label">В работе</div>
-        </div>
-        <div class="ws-stat-card">
-          <div class="ws-stat-card__value">{{ completionRate }}%</div>
-          <div class="ws-stat-card__label">Процент выполнения</div>
-        </div>
-      </div>
+    <loading-wrapper :loading="presetsLoading">
+      <p
+        v-if="!presets.length"
+        class="reports-page__empty"
+      >
+        Нет пресетов для генерации отчётов
+      </p>
 
       <div
-        v-if="aiReport"
-        class="reports-page__ai-report"
+        v-else
+        class="reports-page__presets"
       >
-        <h3 class="reports-page__ai-title">AI Отчёт</h3>
-        <p class="reports-page__ai-content">{{ aiReport }}</p>
+        <div
+          v-for="preset in presets"
+          :key="preset.id"
+          class="reports-page__preset-card"
+        >
+          <div class="reports-page__preset-info">
+            <p class="reports-page__preset-title">{{ preset.title }}</p>
+            <p
+              v-if="preset.description"
+              class="reports-page__preset-description"
+            >
+              {{ preset.description }}
+            </p>
+          </div>
+          <textarea
+            v-model="additionalQueries[preset.id]"
+            class="reports-page__preset-query"
+            placeholder="Дополнительный запрос (необязательно)..."
+            rows="2"
+          />
+          <button-ui
+            :loading="generatingPresetId === preset.id"
+            :disabled="generating && generatingPresetId !== preset.id"
+            @click="generate(preset)"
+          >
+            Сгенерировать
+          </button-ui>
+        </div>
       </div>
     </loading-wrapper>
+
+    <div
+      v-if="reportHtml"
+      class="reports-page__report"
+    >
+      <h3 class="reports-page__report-title">
+        {{ activePresetTitle }}
+      </h3>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div
+        class="reports-page__report-content"
+        v-html="reportHtml"
+      />
+    </div>
   </div>
 </template>
 
@@ -51,11 +79,20 @@ import useReports from './_composables/useReports';
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
 
-const { loading, generating, aiReport, stats, completionRate, fetchStats, generateReport } =
-  useReports(workspaceId);
+const {
+  presets,
+  presetsLoading,
+  additionalQueries,
+  generating,
+  generatingPresetId,
+  reportHtml,
+  activePresetTitle,
+  fetchPresets,
+  generate,
+} = useReports(workspaceId);
 
 onBeforeMount(async () => {
-  await fetchStats();
+  await fetchPresets();
 });
 
 // --- SEO ---
@@ -85,52 +122,143 @@ useAccountSeoTitle(PAGE_TITLE);
     color: colors.$text;
   }
 
-  &__stats {
+  &__empty {
+    text-align: center;
+    color: colors.$text-light;
+    font-size: 14px;
+    padding: 40px 0;
+  }
+
+  &__presets {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 16px;
   }
 
-  &__ai-report {
+  &__preset-card {
+    background: colors.$white;
+    border: 1px solid colors.$border;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__preset-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__preset-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: colors.$text;
+  }
+
+  &__preset-description {
+    font-size: 13px;
+    color: colors.$text-light;
+    line-height: 1.4;
+  }
+
+  &__preset-query {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid colors.$border;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    color: colors.$text;
+    background: colors.$white;
+
+    &:focus {
+      outline: none;
+      border-color: colors.$primary;
+    }
+  }
+
+  &__report {
     background: colors.$white;
     border: 1px solid colors.$border;
     border-radius: 12px;
     padding: 24px;
   }
 
-  &__ai-title {
+  &__report-title {
     font-size: 16px;
     font-weight: 600;
     color: colors.$text;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
-  &__ai-content {
+  &__report-content {
     font-size: 14px;
     line-height: 1.7;
     color: colors.$text;
-    white-space: pre-wrap;
-  }
-}
 
-.ws-stat-card {
-  background: colors.$white;
-  border: 1px solid colors.$border;
-  border-radius: 12px;
-  padding: 20px 24px;
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      color: colors.$text;
+    }
 
-  &__value {
-    font-size: 36px;
-    font-weight: 700;
-    color: colors.$primary;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
+    p {
+      margin-bottom: 8px;
+    }
 
-  &__label {
-    font-size: 13px;
-    color: colors.$text-light;
-    font-weight: 500;
+    ul,
+    ol {
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    code {
+      background: colors.$background;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    pre {
+      background: colors.$background;
+      padding: 12px 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 8px;
+
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 8px;
+
+      th,
+      td {
+        border: 1px solid colors.$border;
+        padding: 8px 12px;
+        text-align: left;
+      }
+
+      th {
+        background: colors.$background;
+        font-weight: 600;
+      }
+    }
   }
 }
 </style>

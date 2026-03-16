@@ -1,69 +1,78 @@
-import { getTasks } from '~/domain/task/api/task.api';
-import { postWorkspaceCommand } from '~/domain/workspace/api/workspace-command.api';
+import { marked } from 'marked';
+
+import { generateReport } from '~/domain/report/api/report.api';
+import { getReportPresets, seedReportPresets } from '~/domain/report/api/report-preset.api';
+import type { ReportPreset } from '~/domain/report/models/report.types';
 import { useCustomToast } from '~/shared/composables/useCustomToast';
 import { showRequestError } from '~/shared/utils/core/show-request-error';
 
 function useReports(workspaceId: string) {
   const { toastSuccess, toastError } = useCustomToast();
 
-  const loading = ref(false);
+  const presets = ref<ReportPreset[]>([]);
+  const presetsLoading = ref(false);
+
+  const additionalQueries = ref<Record<string, string>>({});
   const generating = ref(false);
-  const aiReport = ref('');
-  const stats = ref({
-    total: 0,
-    done: 0,
-    inProgress: 0,
-    cancelled: 0,
-  });
+  const generatingPresetId = ref<string | null>(null);
+  const reportHtml = ref('');
+  const activePresetTitle = ref('');
 
-  const completionRate = computed(() => {
-    if (!stats.value.total) return 0;
-    return Math.round((stats.value.done / stats.value.total) * 100);
-  });
-
-  const fetchStats = async () => {
-    loading.value = true;
+  const fetchPresets = async () => {
+    presetsLoading.value = true;
     try {
-      const response = await getTasks(workspaceId);
-      const tasks = response.data;
-      stats.value = {
-        total: tasks.length,
-        done: tasks.filter((t) => t.status === 'done').length,
-        inProgress: tasks.filter((t) => t.status === 'in_progress').length,
-        cancelled: tasks.filter((t) => t.status === 'cancelled').length,
-      };
+      const response = await getReportPresets(workspaceId);
+      presets.value = response.data;
+
+      // Auto-seed if empty
+      if (!presets.value.length) {
+        try {
+          const seedResponse = await seedReportPresets(workspaceId);
+          presets.value = seedResponse.data;
+        } catch {
+          // Seed failed silently
+        }
+      }
     } catch (e) {
-      toastError('Ошибка при загрузке статистики');
+      toastError('Ошибка при загрузке пресетов');
       showRequestError(e);
     } finally {
-      loading.value = false;
+      presetsLoading.value = false;
     }
   };
 
-  const generateReport = async () => {
+  const generate = async (preset: ReportPreset) => {
     generating.value = true;
+    generatingPresetId.value = preset.id;
+
     try {
-      const response = await postWorkspaceCommand(workspaceId, {
-        text: 'Сгенерируй сводный отчёт по всем задачам команды за последнее время',
+      const response = await generateReport(workspaceId, {
+        preset_id: preset.id,
+        additional_query: additionalQueries.value[preset.id] || undefined,
       });
-      aiReport.value = response.data.human_response;
+
+      reportHtml.value = marked.parse(response.data.markdown) as string;
+      activePresetTitle.value = preset.title;
       toastSuccess('Отчёт сгенерирован');
     } catch (e) {
       toastError('Ошибка при генерации отчёта');
       showRequestError(e);
     } finally {
       generating.value = false;
+      generatingPresetId.value = null;
     }
   };
 
   return {
-    loading,
+    presets,
+    presetsLoading,
+    additionalQueries,
     generating,
-    aiReport,
-    stats,
-    completionRate,
-    fetchStats,
-    generateReport,
+    generatingPresetId,
+    reportHtml,
+    activePresetTitle,
+    fetchPresets,
+    generate,
   };
 }
 
