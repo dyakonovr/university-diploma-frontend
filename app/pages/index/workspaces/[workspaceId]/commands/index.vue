@@ -135,8 +135,8 @@ import { WORKSPACE_ID_KEY } from '~/shared/constants/provide-keys';
 
 import CommandPreview from './_components/CommandPreview.vue';
 import CommandSessionsList from './_components/CommandSessionsList.vue';
-import useCommandSessionDetail from './_composables/useCommandSessionDetail';
 import useCommandsChat from './_composables/useCommandsChat';
+import useCommandSessionDetail from './_composables/useCommandSessionDetail';
 import useCommandSessions from './_composables/useCommandSessions';
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
