@@ -5,8 +5,8 @@ export type TaskCommentCreate = {
 };
 
 export type TaskComment = BaseEntity & {
-  taskId: EntityId;
-  authorId: EntityId;
+  task_id: EntityId;
+  author_id: EntityId;
   content: string;
-  createdAt: string;
+  created_at: string;
 };

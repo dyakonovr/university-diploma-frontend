@@ -117,17 +117,18 @@ const showFeedback = ref(false);
 .command-preview {
   align-self: flex-start;
   max-width: 80%;
-  background: colors.$background;
+  background: colors.$white;
   border: 1px solid colors.$border;
-  border-radius: 12px;
-  padding: 14px 18px;
+  border-radius: 14px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 
   &__response {
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
     color: colors.$text;
     white-space: pre-wrap;
   }
@@ -135,12 +136,18 @@ const showFeedback = ref(false);
   &__actions {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    padding: 12px;
+    background: colors.$background;
+    border-radius: 10px;
+    border: 1px solid colors.$border;
 
     &-title {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: colors.$text-light;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     &-list {
@@ -153,6 +160,7 @@ const showFeedback = ref(false);
   &__buttons {
     display: flex;
     gap: 8px;
+    padding-top: 4px;
   }
 
   &__feedback {
@@ -162,18 +170,20 @@ const showFeedback = ref(false);
 
     &-input {
       width: 100%;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border: 1px solid colors.$border;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
       font-family: inherit;
       resize: vertical;
       color: colors.$text;
-      background: colors.$white;
+      background: colors.$background;
+      transition: border-color 0.15s;
 
       &:focus {
         outline: none;
         border-color: colors.$primary;
+        background: colors.$white;
       }
     }
   }

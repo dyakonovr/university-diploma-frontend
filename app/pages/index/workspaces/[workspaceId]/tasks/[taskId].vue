@@ -74,10 +74,10 @@
         >
           <div class="task-comments__item-header">
             <span class="task-comments__item-date">
-              {{ formatDate(comment.createdAt) }}
+              {{ formatDate(comment.created_at) }}
             </span>
             <button
-              v-if="comment.authorId === currentUserId"
+              v-if="comment.author_id === currentUserId"
               class="task-comments__item-delete"
               type="button"
               @click="removeComment(comment.id)"
@@ -205,13 +205,17 @@ useAccountSeoTitle(PAGE_TITLE);
   border-radius: 12px;
   background: colors.$white;
   overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
 
   &__title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     padding: 16px 20px;
     border-bottom: 1px solid colors.$border;
     color: colors.$text;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: #fafbfc;
   }
 
   &__list {
@@ -226,26 +230,27 @@ useAccountSeoTitle(PAGE_TITLE);
   &__loading {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
   }
 
   &__empty {
     text-align: center;
     color: colors.$text-light;
     font-size: 14px;
-    padding: 20px;
+    padding: 24px;
   }
 
   &__item {
-    padding: 12px;
+    padding: 14px 16px;
     background: colors.$background;
-    border-radius: 8px;
+    border-radius: 10px;
+    border: 1px solid colors.$border;
 
     &-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     &-date {
@@ -256,20 +261,21 @@ useAccountSeoTitle(PAGE_TITLE);
     &-delete {
       background: none;
       border: none;
-      color: colors.$danger;
+      color: colors.$text-light;
       font-size: 12px;
       cursor: pointer;
       padding: 0;
+      transition: color 0.15s;
 
       &:hover {
-        text-decoration: underline;
+        color: colors.$danger;
       }
     }
 
     &-text {
       font-size: 14px;
       color: colors.$text;
-      line-height: 1.5;
+      line-height: 1.6;
       white-space: pre-wrap;
     }
   }
@@ -279,6 +285,7 @@ useAccountSeoTitle(PAGE_TITLE);
     gap: 12px;
     padding: 16px 20px;
     border-top: 1px solid colors.$border;
+    background: #fafbfc;
     align-items: flex-end;
 
     .form-wrapper {

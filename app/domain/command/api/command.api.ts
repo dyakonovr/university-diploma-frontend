@@ -7,7 +7,7 @@ import type {
   CommandPreviewResponse,
   CommandRejectRequest,
   CommandRequest,
-  CommandSession,
+  CommandSessionRaw,
 } from '../models/command.types';
 
 export function postCommand(workspaceId: EntityId, data: CommandRequest) {
@@ -22,7 +22,7 @@ export function postCommand(workspaceId: EntityId, data: CommandRequest) {
 export function confirmCommandSession(workspaceId: EntityId, sessionId: EntityId) {
   return request<Response<CommandConfirmResponse>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/command/sessions/${sessionId}/confirm`,
+    url: `/workspaces/${workspaceId}/command/${sessionId}/confirm`,
     method: 'POST',
   });
 }
@@ -34,7 +34,7 @@ export function rejectCommandSession(
 ) {
   return request<Response<CommandPreviewResponse>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/command/sessions/${sessionId}/reject`,
+    url: `/workspaces/${workspaceId}/command/${sessionId}/reject`,
     method: 'POST',
     data,
   });
@@ -45,7 +45,7 @@ export function getCommandSessions(
   params?: QueryParams,
   signal: AbortSignal | null = null,
 ) {
-  return request<ResponseWithPagination<CommandSession[]>>({
+  return request<ResponseWithPagination<CommandSessionRaw[]>>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/command/sessions`,
     method: 'GET',
@@ -59,7 +59,7 @@ export function getCommandSession(
   sessionId: EntityId,
   signal: AbortSignal | null = null,
 ) {
-  return request<Response<CommandSession>>({
+  return request<Response<CommandSessionRaw>>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/command/sessions/${sessionId}`,
     method: 'GET',
@@ -68,7 +68,7 @@ export function getCommandSession(
 }
 
 export function deleteCommandSession(workspaceId: EntityId, sessionId: EntityId) {
-  return request<Response<CommandSession>>({
+  return request<unknown>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/command/sessions/${sessionId}`,
     method: 'DELETE',

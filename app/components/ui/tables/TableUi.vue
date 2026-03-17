@@ -106,7 +106,8 @@ onBeforeUnmount(() => {
   position: relative;
   overflow-x: auto;
   border: 1px solid colors.$border;
-  border-radius: 6px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
 
   &.fixed-header {
     overflow-y: auto;
@@ -205,18 +206,25 @@ onBeforeUnmount(() => {
   & thead tr {
     @include textMixins.text-14;
 
-    color: colors.$text;
-    font-weight: 500;
+    color: colors.$text-light;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 12px;
+
+    th {
+      background-color: #f9fafb;
+    }
   }
 
   & tr {
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
     border-bottom: 1px solid colors.$border;
 
     &.active,
     &:hover,
     &:hover td.table-ui__cell--fixed-right {
-      background-color: colors.$border;
+      background-color: #f9fafb;
     }
 
     &:last-child td {

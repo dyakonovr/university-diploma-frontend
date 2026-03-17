@@ -27,39 +27,45 @@
       </template>
     </account-table-header>
 
-    <cards-view
+    <table-view
       v-model:current-page="meta.page"
-      :data="data"
-      :card-link="(item) => `/workspaces/${workspaceId}/tasks/${item.id}`"
-      :loading="loading"
       with-pagination
+      :header-columns="TABLE_COLUMNS"
+      :table-data="data"
       :total-pages="meta.total_pages"
-      empty-html="Нет задач"
+      :loading="loading"
+      :row-link="(item) => `/workspaces/${workspaceId}/tasks/${item.id}`"
       @update:current-page="getTasksData()"
     >
-      <template #title="{ item }">
+      <template #title="item">
         {{ item.title }}
       </template>
-      <template #body="{ item }">
-        <div class="tasks-page__card-tags">
-          <tag-ui :type="PRIORITY_TAG[item.priority]">
-            {{ PRIORITY_LABELS[item.priority] }}
-          </tag-ui>
-          <tag-ui :type="STATUS_TAG[item.status]">
-            {{ STATUS_LABELS[item.status] }}
-          </tag-ui>
-        </div>
-        <p v-if="item.deadline" class="tasks-page__deadline">
-          {{ new Date(item.deadline).toLocaleDateString("ru-RU") }}
-        </p>
+      <template #priority="item">
+        <tag-ui :type="PRIORITY_TAG[item.priority]">
+          {{ PRIORITY_LABELS[item.priority] }}
+        </tag-ui>
       </template>
-      <template #actions="{ item }">
+      <template #status="item">
+        <tag-ui :type="STATUS_TAG[item.status]">
+          {{ STATUS_LABELS[item.status] }}
+        </tag-ui>
+      </template>
+      <template #deadline="item">
+        <span v-if="item.deadline">
+          {{ new Date(item.deadline).toLocaleDateString('ru-RU') }}
+        </span>
+        <span
+          v-else
+          class="tasks-page__no-deadline"
+        >—</span>
+      </template>
+      <template #actions="item">
         <table-action-menu
           :edit-link="`/workspaces/${workspaceId}/tasks/${item.id}`"
           @delete-click="handleDelete(item)"
         />
       </template>
-    </cards-view>
+    </table-view>
 
     <delete-confirmation-dialog
       v-bind="deleteItemDialogContent"
@@ -70,14 +76,14 @@
 </template>
 
 <script setup lang="ts">
-import CardsView from "~/components/list-views/CardsView.vue";
-import DeleteConfirmationDialog from "~/components/dialogs/DeleteConfirmationDialog.vue";
-import AccountTableHeader from "~/components/pages/account/AccountTableHeader.vue";
-import ButtonUi from "~/components/ui/ButtonUi.vue";
-import SelectUi from "~/components/ui/form/select/SelectUi.vue";
-import TableActionMenu from "~/components/ui/tables/dropdowns/TableActionMenu.vue";
-import TagUi from "~/components/ui/TagUi.vue";
-import { deleteTask } from "~/domain/task/api/task.api";
+import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
+import TableView from '~/components/list-views/TableView.vue';
+import AccountTableHeader from '~/components/pages/account/AccountTableHeader.vue';
+import ButtonUi from '~/components/ui/ButtonUi.vue';
+import SelectUi from '~/components/ui/form/select/SelectUi.vue';
+import TableActionMenu from '~/components/ui/tables/dropdowns/TableActionMenu.vue';
+import TagUi from '~/components/ui/TagUi.vue';
+import { deleteTask } from '~/domain/task/api/task.api';
 import {
   PRIORITY_LABELS,
   PRIORITY_OPTIONS,
@@ -85,17 +91,26 @@ import {
   STATUS_LABELS,
   STATUS_OPTIONS,
   STATUS_TAG,
-} from "~/domain/task/constants/task.constants";
-import type { Task } from "~/domain/task/models/task.types";
-import useAccountSeoTitle from "~/shared/composables/useAccountSeoTitle";
-import useDeleteTableItem from "~/shared/composables/useDeleteTableItem";
-import { WORKSPACE_ID_KEY } from "~/shared/constants/provide-keys";
-import { parsePaginationFromUrl } from "~/shared/utils/parsePaginationFromUrl";
+} from '~/domain/task/constants/task.constants';
+import type { Task } from '~/domain/task/models/task.types';
+import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
+import useDeleteTableItem from '~/shared/composables/useDeleteTableItem';
+import { WORKSPACE_ID_KEY } from '~/shared/constants/provide-keys';
+import type { TableViewHeaderColumn } from '~/shared/types/ui/table-view.types';
+import { parsePaginationFromUrl } from '~/shared/utils/parsePaginationFromUrl';
 
-import useTasksData from "./_composables/useTasksData";
-import useTasksTableFilters from "./_composables/useTasksTableFilters";
+import useTasksData from './_composables/useTasksData';
+import useTasksTableFilters from './_composables/useTasksTableFilters';
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
+
+const TABLE_COLUMNS: TableViewHeaderColumn[] = [
+  { prop: 'title', label: 'Название', minWidth: 200 },
+  { prop: 'priority', label: 'Приоритет', width: 140 },
+  { prop: 'status', label: 'Статус', width: 150 },
+  { prop: 'deadline', label: 'Дедлайн', width: 140 },
+  { prop: 'actions', label: 'Действия', fixed: 'right', width: 120 },
+];
 
 const { filters, resetFilters } = useTasksTableFilters();
 
@@ -114,8 +129,8 @@ const {
 } = useDeleteTableItem<Task>({
   deleteFunc: (id) => deleteTask(id, workspaceId),
   mapFunc: (el) => el.title,
-  successMessage: "Задача удалена",
-  errorMessage: "Ошибка при удалении задачи",
+  successMessage: 'Задача удалена',
+  errorMessage: 'Ошибка при удалении задачи',
   getTableData: () => getTasksData(),
 });
 
@@ -135,28 +150,20 @@ onBeforeMount(async () => {
 });
 
 // --- SEO ---
-const PAGE_TITLE = "Задачи";
+const PAGE_TITLE = 'Задачи';
 definePageMeta({ title: PAGE_TITLE });
 useAccountSeoTitle(PAGE_TITLE);
 </script>
 
 <style lang="scss">
-@use "/assets/styles/base/colors" as colors;
+@use '/assets/styles/base/colors' as colors;
 
 .tasks-page {
   display: flex;
   flex-direction: column;
   gap: 16px;
 
-  &__card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 8px;
-  }
-
-  &__deadline {
-    font-size: 12px;
+  &__no-deadline {
     color: colors.$text-light;
   }
 }

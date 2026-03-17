@@ -291,7 +291,7 @@ const onCurrentPageChange = (value: number) => {
 @use '/assets/styles/mixins/text' as textMixins;
 
 .tv {
-  margin: 24px 0;
+  margin: 16px 0;
 
   &__footer {
     display: flex;

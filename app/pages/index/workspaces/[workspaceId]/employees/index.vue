@@ -6,28 +6,30 @@
       </template>
     </account-table-header>
 
-    <cards-view
-      :data="data"
+    <table-view
+      :header-columns="TABLE_COLUMNS"
+      :table-data="data"
       :loading="loading"
       :with-pagination="false"
-      empty-html="Нет участников"
     >
-      <template #title="{ item }">
-        {{ item.name || "—" }}
+      <template #name="item">
+        {{ item.name || '—' }}
       </template>
-      <template #body="{ item }">
-        <p class="employees-page__email">{{ item.email }}</p>
+      <template #email="item">
+        {{ item.email }}
+      </template>
+      <template #role="item">
         <tag-ui :type="ROLE_TAG[item.role]">
           {{ ROLE_LABELS[item.role] }}
         </tag-ui>
       </template>
-      <template #actions="{ item }">
+      <template #actions="item">
         <table-action-menu
           :can-edit="false"
           @delete-click="handleDelete(item)"
         />
       </template>
-    </cards-view>
+    </table-view>
 
     <dialog-ui
       v-model="invite.dialogVisible"
@@ -63,15 +65,15 @@
 </template>
 
 <script setup lang="ts">
-import CardsView from "~/components/list-views/CardsView.vue";
-import DeleteConfirmationDialog from "~/components/dialogs/DeleteConfirmationDialog.vue";
-import AccountTableHeader from "~/components/pages/account/AccountTableHeader.vue";
-import ButtonUi from "~/components/ui/ButtonUi.vue";
-import DialogUi from "~/components/ui/DialogUi.vue";
-import InputUi from "~/components/ui/form/InputUi.vue";
-import SelectUi from "~/components/ui/form/select/SelectUi.vue";
-import TableActionMenu from "~/components/ui/tables/dropdowns/TableActionMenu.vue";
-import TagUi from "~/components/ui/TagUi.vue";
+import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
+import TableView from '~/components/list-views/TableView.vue';
+import AccountTableHeader from '~/components/pages/account/AccountTableHeader.vue';
+import ButtonUi from '~/components/ui/ButtonUi.vue';
+import DialogUi from '~/components/ui/DialogUi.vue';
+import InputUi from '~/components/ui/form/InputUi.vue';
+import SelectUi from '~/components/ui/form/select/SelectUi.vue';
+import TableActionMenu from '~/components/ui/tables/dropdowns/TableActionMenu.vue';
+import TagUi from '~/components/ui/TagUi.vue';
 import { removeMemberFromWorkspace } from "~/domain/workspace/api/workspace-member.api";
 import {
   ROLE_LABELS,
@@ -79,14 +81,22 @@ import {
   ROLE_TAG,
 } from "~/domain/workspace/constants/workspace-member.constants";
 import type { WorkspaceMember } from "~/domain/workspace/models/workspace-member.types";
-import useAccountSeoTitle from "~/shared/composables/useAccountSeoTitle";
-import useDeleteTableItem from "~/shared/composables/useDeleteTableItem";
-import { WORKSPACE_ID_KEY } from "~/shared/constants/provide-keys";
+import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
+import useDeleteTableItem from '~/shared/composables/useDeleteTableItem';
+import { WORKSPACE_ID_KEY } from '~/shared/constants/provide-keys';
+import type { TableViewHeaderColumn } from '~/shared/types/ui/table-view.types';
 
-import useEmployeesData from "./_composables/useEmployeesData";
-import useInviteMember from "./_composables/useInviteMember";
+import useEmployeesData from './_composables/useEmployeesData';
+import useInviteMember from './_composables/useInviteMember';
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
+
+const TABLE_COLUMNS: TableViewHeaderColumn[] = [
+  { prop: 'name', label: 'Имя', minWidth: 160 },
+  { prop: 'email', label: 'Email', minWidth: 200 },
+  { prop: 'role', label: 'Роль', width: 140 },
+  { prop: 'actions', label: 'Действия', fixed: 'right', width: 120 },
+];
 
 const { data, loading, getData } = useEmployeesData(workspaceId);
 const invite = reactive(useInviteMember(workspaceId, () => getData()));
@@ -115,18 +125,10 @@ useAccountSeoTitle(PAGE_TITLE);
 </script>
 
 <style lang="scss">
-@use "/assets/styles/base/colors" as colors;
-
 .employees-page {
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  &__email {
-    font-size: 13px;
-    color: colors.$text-light;
-    margin-bottom: 8px;
-  }
 
   &__form {
     display: flex;

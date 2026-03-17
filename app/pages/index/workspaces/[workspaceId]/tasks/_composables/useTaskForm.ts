@@ -1,9 +1,8 @@
-import { createTask, getTask, updateTask } from "~/domain/task/api/task.api";
+import { createTask, getTask, updateTask } from '~/domain/task/api/task.api';
 import type {
-  TaskCreate,
   TaskPriority,
   TaskStatus,
-} from "~/domain/task/models/task.types";
+} from '~/domain/task/models/task.types';
 import { useCustomToast } from "~/shared/composables/useCustomToast";
 import useGetBack from "~/shared/composables/useGetBack";
 import { ERROR_REQUIRED_FIELD } from "~/shared/constants/core/validation-errors.const";
@@ -100,20 +99,29 @@ function useTaskForm(workspaceId: string) {
 
     saving.value = true;
     try {
-      const data = {
-        ...formData.value,
-        deadline: formData.value.deadline
-          ? formData.value.deadline instanceof Date
-            ? formData.value.deadline.toISOString()
-            : formData.value.deadline
-          : null,
-      } as TaskCreate;
+      const deadline = formData.value.deadline
+        ? formData.value.deadline instanceof Date
+          ? formData.value.deadline.toISOString()
+          : formData.value.deadline
+        : null;
+
       if (editId.value) {
-        await updateTask(editId.value, workspaceId, data);
-        toastSuccess("Задача обновлена");
+        await updateTask(editId.value, workspaceId, {
+          title: formData.value.title ?? undefined,
+          description: formData.value.description,
+          priority: formData.value.priority ?? undefined,
+          status: formData.value.status ?? undefined,
+          deadline,
+        });
+        toastSuccess('Задача обновлена');
       } else {
-        await createTask(workspaceId, { ...data, workspaceId, assigneeId: "" });
-        toastSuccess("Задача создана");
+        await createTask(workspaceId, {
+          title: formData.value.title ?? '',
+          priority: formData.value.priority ?? 'medium',
+          description: formData.value.description,
+          deadline,
+        });
+        toastSuccess('Задача создана');
       }
       getBack();
     } catch (e) {

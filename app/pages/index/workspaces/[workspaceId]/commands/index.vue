@@ -197,7 +197,7 @@ const {
   confirmDelete: confirmSessionDelete,
 } = useDeleteTableItem<CommandSession>({
   deleteFunc: (id) => deleteCommandSession(workspaceId, id),
-  mapFunc: (el) => el.command_text,
+  mapFunc: (el) => el.raw_input,
   successMessage: 'Сессия удалена',
   errorMessage: 'Ошибка при удалении сессии',
   getTableData: () => getSessions(),
@@ -242,9 +242,10 @@ useAccountSeoTitle(PAGE_TITLE);
   }
 
   &__title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     color: colors.$text;
+    letter-spacing: -0.01em;
   }
 
   &__subtitle {
@@ -268,15 +269,16 @@ useAccountSeoTitle(PAGE_TITLE);
     border-radius: 12px;
     background: colors.$white;
     overflow: hidden;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
   }
 
   &__messages {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
 
   &__empty {
@@ -284,18 +286,18 @@ useAccountSeoTitle(PAGE_TITLE);
     color: colors.$text-light;
     font-size: 14px;
     line-height: 1.6;
-    max-width: 480px;
+    max-width: 520px;
 
     &-title {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
       color: colors.$text;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       text-align: center;
     }
 
     &-hint {
-      margin-top: 16px;
+      margin-top: 20px;
       text-align: center;
       font-size: 13px;
       color: colors.$text-light;
@@ -310,11 +312,17 @@ useAccountSeoTitle(PAGE_TITLE);
     gap: 8px;
 
     li {
-      padding: 8px 12px;
+      padding: 10px 14px;
       background: colors.$background;
-      border-radius: 8px;
+      border: 1px solid colors.$border;
+      border-radius: 10px;
       font-size: 13px;
       color: colors.$text;
+      transition: border-color 0.15s ease;
+
+      &:hover {
+        border-color: colors.$primary-light;
+      }
 
       strong {
         color: colors.$primary;
@@ -325,7 +333,7 @@ useAccountSeoTitle(PAGE_TITLE);
   &__message {
     max-width: 75%;
     padding: 12px 16px;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 14px;
     line-height: 1.5;
 
@@ -334,12 +342,14 @@ useAccountSeoTitle(PAGE_TITLE);
       background: colors.$primary;
       color: #fff;
       border-bottom-right-radius: 4px;
+      box-shadow: 0 1px 3px rgba(99, 102, 241, 0.3);
     }
 
     &--system {
       align-self: flex-start;
       background: colors.$background;
       color: colors.$text;
+      border: 1px solid colors.$border;
       border-bottom-left-radius: 4px;
     }
 
@@ -368,6 +378,7 @@ useAccountSeoTitle(PAGE_TITLE);
     gap: 12px;
     padding: 16px 20px;
     border-top: 1px solid colors.$border;
+    background: #fafbfc;
     align-items: flex-end;
 
     .form-wrapper {

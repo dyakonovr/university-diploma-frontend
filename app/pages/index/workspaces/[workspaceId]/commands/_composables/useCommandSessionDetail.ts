@@ -1,4 +1,5 @@
 import { getCommandSession } from '~/domain/command/api/command.api';
+import { mapCommandSession } from '~/domain/command/models/command.types';
 import { useCustomToast } from '~/shared/composables/useCustomToast';
 import { showRequestError } from '~/shared/utils/core/show-request-error';
 
@@ -21,13 +22,13 @@ function useCommandSessionDetail(workspaceId: string) {
 
     try {
       const response = await getCommandSession(workspaceId, sessionId);
-      const session = response.data;
+      const session = mapCommandSession(response.data);
       const time = formatTime(session.created_at);
 
       // User message
       sessionMessages.value.push({
         type: 'user',
-        text: session.command_text,
+        text: session.raw_input,
         timestamp: time,
       });
 

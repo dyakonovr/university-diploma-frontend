@@ -1,12 +1,13 @@
-import type { QueryParams, Response,ResponseWithPagination } from '~/shared/types/core/request.types';
+import type { EntityId } from '~/shared/types/core/base-entity.types';
+import type { QueryParams, Response, ResponseWithPagination } from '~/shared/types/core/request.types';
 import request from '~/shared/utils/core/request.client';
-import type { Task, TaskCreate } from "../models/task.types";
-import type { EntityId } from "~/shared/types/core/base-entity.types";
+
+import type { Task, TaskCreate, TaskUpdate } from '../models/task.types';
 
 export function getTasks(
   workspaceId: EntityId,
   params?: QueryParams,
-  signal: AbortSignal | null = null
+  signal: AbortSignal | null = null,
 ) {
   return request<ResponseWithPagination<Task[]>>({
     baseUrl: 'MAIN',
@@ -35,11 +36,7 @@ export function createTask(workspaceId: EntityId, data: TaskCreate) {
   });
 }
 
-export function updateTask(
-  id: EntityId,
-  workspaceId: EntityId,
-  data: TaskCreate
-) {
+export function updateTask(id: EntityId, workspaceId: EntityId, data: TaskUpdate) {
   return request<Response<Task>>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/tasks/${id}`,
@@ -49,7 +46,7 @@ export function updateTask(
 }
 
 export function deleteTask(id: EntityId, workspaceId: EntityId) {
-  return request<Response<Task>>({
+  return request<unknown>({
     baseUrl: 'MAIN',
     url: `/workspaces/${workspaceId}/tasks/${id}`,
     method: 'DELETE',

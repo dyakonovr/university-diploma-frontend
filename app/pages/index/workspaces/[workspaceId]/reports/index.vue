@@ -117,9 +117,10 @@ useAccountSeoTitle(PAGE_TITLE);
   }
 
   &__title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     color: colors.$text;
+    letter-spacing: -0.01em;
   }
 
   &__empty {
@@ -143,6 +144,13 @@ useAccountSeoTitle(PAGE_TITLE);
     display: flex;
     flex-direction: column;
     gap: 12px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      border-color: colors.$primary-light;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+    }
   }
 
   &__preset-info {
@@ -184,17 +192,24 @@ useAccountSeoTitle(PAGE_TITLE);
     background: colors.$white;
     border: 1px solid colors.$border;
     border-radius: 12px;
-    padding: 24px;
+    padding: 0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+    overflow: hidden;
   }
 
   &__report-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: colors.$text;
-    margin-bottom: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid colors.$border;
+    background: #fafbfc;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
 
   &__report-content {
+    padding: 24px;
     font-size: 14px;
     line-height: 1.7;
     color: colors.$text;
