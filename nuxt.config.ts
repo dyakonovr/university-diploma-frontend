@@ -50,4 +50,7 @@ export default defineNuxtConfig({
       baseURL: process.env.BACKEND_API_URL,
     },
   },
+  devServer: {
+    port: 5173,
+  }
 });
