@@ -1,7 +1,15 @@
-import type { BaseEntity, EntityId } from '~/shared/types/core/base-entity.types';
+import type {
+  BaseEntity,
+  EntityId,
+} from "~/shared/types/core/base-entity.types";
 
-export type TaskPriority = 'low' | 'medium' | 'high' | 'critical';
-export type TaskStatus = 'backlog' | 'in_progress' | 'review' | 'done' | 'cancelled';
+export type TaskPriority = "low" | "medium" | "high" | "critical";
+export type TaskStatus =
+  | "backlog"
+  | "in_progress"
+  | "review"
+  | "done"
+  | "cancelled";
 
 /** Task response from backend (all fields snake_case) */
 export type Task = BaseEntity & {
@@ -15,6 +23,8 @@ export type Task = BaseEntity & {
   deadline: string | null;
   created_at: string;
   updated_at: string;
+  external_id: string | null;
+  external_source: string | null;
 };
 
 /** Request body for creating a task (matches backend CreateTaskRequest) */

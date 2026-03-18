@@ -17,6 +17,26 @@
         :searchable="false"
         :select-props="{ disabled: loading }"
       />
+
+      <template v-if="currentConfigFields.length > 0">
+        <div class="integration-create-page__config-title">
+          Настройки подключения
+        </div>
+
+        <input-ui
+          v-for="field in currentConfigFields"
+          :key="field.key"
+          v-model="configValues[field.key]"
+          :label="field.label"
+          :required="field.required"
+          :input-props="{
+            placeholder: field.placeholder || '',
+            disabled: loading,
+            type: field.type === 'password' ? 'password' : 'text',
+          }"
+          :error="configErrors[field.key]"
+        />
+      </template>
     </form-container>
 
     <form-buttons
@@ -43,10 +63,23 @@ import useIntegrationForm from "./_composables/useIntegrationForm";
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
 
-const { loading, formData, formErrors, onSubmit, getBack } =
-  useIntegrationForm(workspaceId);
+const {
+  loading,
+  formData,
+  formErrors,
+  configValues,
+  configErrors,
+  currentConfigFields,
+  loadAvailableIntegrations,
+  onSubmit,
+  getBack,
+} = useIntegrationForm(workspaceId);
 
 useFormKeyboard({ onSubmit, onCancel: getBack, disabled: loading });
+
+onBeforeMount(async () => {
+  await loadAvailableIntegrations();
+});
 
 // --- SEO ---
 const PAGE_TITLE = "Добавление интеграции";
@@ -55,8 +88,18 @@ useAccountSeoTitle(PAGE_TITLE);
 </script>
 
 <style lang="scss">
+@use "/assets/styles/base/colors" as colors;
+
 .integration-create-page {
   display: flex;
   flex-direction: column;
+
+  &__config-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: colors.$text;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
 }
 </style>
