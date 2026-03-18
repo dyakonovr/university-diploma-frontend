@@ -23,3 +23,46 @@ export type ReportGenerateRequest = {
 export type ReportGenerateResponse = {
   markdown: string;
 };
+
+// --- Statistics (no AI) ---
+
+export type TaskStatistics = {
+  total: number;
+  by_status: Record<string, number>;
+  by_priority: Record<string, number>;
+  external: number;
+};
+
+export type DeadlineStatistics = {
+  overdue: number;
+  due_this_week: number;
+  due_later: number;
+  no_deadline: number;
+};
+
+export type MemberStats = {
+  user_id: string;
+  name: string;
+  role: string;
+  task_count: number;
+  by_status: Record<string, number>;
+  by_priority: Record<string, number>;
+};
+
+export type StatisticsReport = {
+  tasks: TaskStatistics;
+  deadlines: DeadlineStatistics;
+  members: MemberStats[];
+};
+
+// --- Workload ---
+
+export type MemberWorkload = {
+  user_id: string;
+  name: string;
+  openTasks: number;
+};
+
+export type WorkloadReport = {
+  members: MemberWorkload[];
+};

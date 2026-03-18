@@ -11,7 +11,7 @@ export function getReportPresets(
 ) {
   return request<ResponseWithPagination<ReportPreset[]>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets`,
+    url: `/workspaces/${workspaceId}/reports/presets`,
     method: 'GET',
     params,
     signal,
@@ -25,7 +25,7 @@ export function getReportPreset(
 ) {
   return request<Response<ReportPreset>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets/${id}`,
+    url: `/workspaces/${workspaceId}/reports/presets/${id}`,
     method: 'GET',
     signal,
   });
@@ -34,7 +34,7 @@ export function getReportPreset(
 export function createReportPreset(workspaceId: EntityId, data: ReportPresetCreate) {
   return request<Response<ReportPreset>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets`,
+    url: `/workspaces/${workspaceId}/reports/presets`,
     method: 'POST',
     data,
   });
@@ -47,7 +47,7 @@ export function updateReportPreset(
 ) {
   return request<Response<ReportPreset>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets/${id}`,
+    url: `/workspaces/${workspaceId}/reports/presets/${id}`,
     method: 'PATCH',
     data,
   });
@@ -56,7 +56,7 @@ export function updateReportPreset(
 export function deleteReportPreset(id: EntityId, workspaceId: EntityId) {
   return request<Response<ReportPreset>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets/${id}`,
+    url: `/workspaces/${workspaceId}/reports/presets/${id}`,
     method: 'DELETE',
   });
 }
@@ -64,7 +64,7 @@ export function deleteReportPreset(id: EntityId, workspaceId: EntityId) {
 export function seedReportPresets(workspaceId: EntityId) {
   return request<Response<ReportPreset[]>>({
     baseUrl: 'MAIN',
-    url: `/workspaces/${workspaceId}/report-presets/seed`,
+    url: `/workspaces/${workspaceId}/reports/presets/seed`,
     method: 'POST',
   });
 }

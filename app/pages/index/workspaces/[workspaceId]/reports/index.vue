@@ -3,6 +3,7 @@
     <div class="reports-page__header">
       <h2 class="reports-page__title">Отчёты</h2>
       <button-ui
+        v-if="activeTab === 'aiReports'"
         variant="outlined"
         :to="`/workspaces/${workspaceId}/reports/presets`"
       >
@@ -10,75 +11,108 @@
       </button-ui>
     </div>
 
-    <loading-wrapper :loading="presetsLoading">
-      <p
-        v-if="!presets.length"
-        class="reports-page__empty"
-      >
-        Нет пресетов для генерации отчётов
-      </p>
-
-      <div
-        v-else
-        class="reports-page__presets"
-      >
-        <div
-          v-for="preset in presets"
-          :key="preset.id"
-          class="reports-page__preset-card"
-        >
-          <div class="reports-page__preset-info">
-            <p class="reports-page__preset-title">{{ preset.title }}</p>
-            <p
-              v-if="preset.description"
-              class="reports-page__preset-description"
-            >
-              {{ preset.description }}
-            </p>
-          </div>
-          <textarea
-            v-model="additionalQueries[preset.id]"
-            class="reports-page__preset-query"
-            placeholder="Дополнительный запрос (необязательно)..."
-            rows="2"
-          />
-          <button-ui
-            :loading="generatingPresetId === preset.id"
-            :disabled="generating && generatingPresetId !== preset.id"
-            @click="generate(preset)"
-          >
-            Сгенерировать
-          </button-ui>
-        </div>
-      </div>
-    </loading-wrapper>
-
-    <div
-      v-if="reportHtml"
-      class="reports-page__report"
+    <tabs-ui
+      v-model="activeTab"
+      :tabs="TABS"
     >
-      <h3 class="reports-page__report-title">
-        {{ activePresetTitle }}
-      </h3>
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div
-        class="reports-page__report-content"
-        v-html="reportHtml"
-      />
-    </div>
+      <template #statistics>
+        <report-statistics
+          :statistics="statistics"
+          :loading="statisticsLoading"
+        />
+      </template>
+
+      <template #aiReports>
+        <loading-wrapper :loading="presetsLoading">
+          <p
+            v-if="!presets.length"
+            class="reports-page__empty"
+          >
+            Нет пресетов для генерации отчётов
+          </p>
+
+          <div
+            v-else
+            class="reports-page__presets"
+          >
+            <div
+              v-for="preset in presets"
+              :key="preset.id"
+              class="reports-page__preset-card"
+            >
+              <div class="reports-page__preset-info">
+                <p class="reports-page__preset-title">{{ preset.title }}</p>
+                <p
+                  v-if="preset.description"
+                  class="reports-page__preset-description"
+                >
+                  {{ preset.description }}
+                </p>
+              </div>
+              <textarea
+                v-model="additionalQueries[preset.id]"
+                class="reports-page__preset-query"
+                placeholder="Дополнительный запрос (необязательно)..."
+                rows="2"
+              />
+              <button-ui
+                :loading="generatingPresetId === preset.id"
+                :disabled="generating && generatingPresetId !== preset.id"
+                @click="generate(preset)"
+              >
+                Сгенерировать
+              </button-ui>
+            </div>
+          </div>
+        </loading-wrapper>
+
+        <div
+          v-if="reportHtml"
+          class="reports-page__report"
+        >
+          <h3 class="reports-page__report-title">
+            {{ activePresetTitle }}
+          </h3>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div
+            class="reports-page__report-content"
+            v-html="reportHtml"
+          />
+        </div>
+      </template>
+    </tabs-ui>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { TabItem } from '~/shared/types/ui/tabs.types';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import LoadingWrapper from '~/components/ui/LoadingWrapper.vue';
+import TabsUi from '~/components/ui/TabsUi.vue';
 import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
 import { WORKSPACE_ID_KEY } from '~/shared/constants/provide-keys';
 
+import ReportStatistics from './_components/ReportStatistics.vue';
 import useReports from './_composables/useReports';
+import useStatistics from './_composables/useStatistics';
 
 const workspaceId = inject(WORKSPACE_ID_KEY)!;
 
+const TABS: TabItem[] = [
+  { label: 'Статистика', value: 'statistics' },
+  { label: 'AI Отчёты', value: 'aiReports' },
+];
+
+const activeTab = ref('statistics');
+
+// --- Statistics ---
+const {
+  statistics,
+  loading: statisticsLoading,
+  fetchStatistics,
+} = useStatistics(workspaceId);
+
+// --- AI Reports ---
 const {
   presets,
   presetsLoading,
@@ -92,7 +126,13 @@ const {
 } = useReports(workspaceId);
 
 onBeforeMount(async () => {
-  await fetchPresets();
+  await fetchStatistics();
+});
+
+watch(activeTab, (tab) => {
+  if (tab === 'aiReports' && !presets.value.length && !presetsLoading.value) {
+    fetchPresets();
+  }
 });
 
 // --- SEO ---
@@ -195,6 +235,7 @@ useAccountSeoTitle(PAGE_TITLE);
     padding: 0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
     overflow: hidden;
+    margin-top: 16px;
   }
 
   &__report-title {
