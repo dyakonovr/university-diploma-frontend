@@ -6,11 +6,11 @@ definitions:
         type: string
       id:
         type: string
-      updatedAt:
+      updated_at:
         type: string
       version:
         type: integer
-      workspaceId:
+      workspace_id:
         type: string
     type: object
   internal_http_handlers.updateAIContextRequest:
@@ -26,27 +26,40 @@ definitions:
       type:
         type: string
     type: object
+  secretary-app_internal_http_dto.AvailableIntegration:
+    properties:
+      config_fields:
+        items:
+          $ref: '#/definitions/secretary-app_internal_http_dto.ConfigField'
+        type: array
+      display_name:
+        type: string
+      provider:
+        type: string
+      type:
+        type: string
+    type: object
   secretary-app_internal_http_dto.CalendarEventResponse:
     properties:
-      createdAt:
+      created_at:
         type: string
-      createdBy:
+      created_by:
         type: string
       description:
         type: string
-      endTime:
+      end_time:
         type: string
       id:
         type: string
       location:
         type: string
-      startTime:
+      start_time:
         type: string
       title:
         type: string
-      updatedAt:
+      updated_at:
         type: string
-      workspaceId:
+      workspace_id:
         type: string
     type: object
   secretary-app_internal_http_dto.CommandRequest:
@@ -54,16 +67,29 @@ definitions:
       text:
         type: string
     type: object
+  secretary-app_internal_http_dto.ConfigField:
+    properties:
+      key:
+        type: string
+      label:
+        type: string
+      placeholder:
+        type: string
+      required:
+        type: boolean
+      type:
+        type: string
+    type: object
   secretary-app_internal_http_dto.CreateCalendarEventRequest:
     properties:
       description:
         type: string
-      endTime:
+      end_time:
         description: RFC3339
         type: string
       location:
         type: string
-      startTime:
+      start_time:
         description: RFC3339
         type: string
       title:
@@ -74,9 +100,18 @@ definitions:
       content:
         type: string
     type: object
+  secretary-app_internal_http_dto.CreateReportPresetRequest:
+    properties:
+      description:
+        type: string
+      prompt:
+        type: string
+      title:
+        type: string
+    type: object
   secretary-app_internal_http_dto.CreateTaskRequest:
     properties:
-      assigneeId:
+      assignee_id:
         type: string
       deadline:
         description: RFC3339
@@ -93,6 +128,20 @@ definitions:
       name:
         type: string
     type: object
+  secretary-app_internal_http_dto.GenerateReportRequest:
+    properties:
+      additional_query:
+        type: string
+      preset_id:
+        type: string
+    type: object
+  secretary-app_internal_http_dto.HealthCheckResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
   secretary-app_internal_http_dto.IntegrationRequest:
     properties:
       config:
@@ -105,29 +154,29 @@ definitions:
     type: object
   secretary-app_internal_http_dto.IntegrationResponse:
     properties:
-      apiToken:
+      api_token:
         type: string
       config:
         additionalProperties: true
         type: object
-      createdAt:
+      created_at:
         type: string
       id:
         type: string
-      isActive:
+      is_active:
         type: boolean
       name:
         type: string
       type:
         type: string
-      workspaceId:
+      workspace_id:
         type: string
     type: object
   secretary-app_internal_http_dto.InviteMemberRequest:
     properties:
       role:
         type: string
-      userId:
+      user_id:
         type: string
     type: object
   secretary-app_internal_http_dto.LoginRequest:
@@ -135,11 +184,6 @@ definitions:
       email:
         type: string
       password:
-        type: string
-    type: object
-  secretary-app_internal_http_dto.LogoutRequest:
-    properties:
-      refreshToken:
         type: string
     type: object
   secretary-app_internal_http_dto.MemberResponse:
@@ -150,14 +194,14 @@ definitions:
         type: string
       role:
         type: string
-      userId:
+      user_id:
         type: string
-      workspaceId:
+      workspace_id:
         type: string
     type: object
   secretary-app_internal_http_dto.RefreshRequest:
     properties:
-      refreshToken:
+      refresh_token:
         type: string
     type: object
   secretary-app_internal_http_dto.RegisterRequest:
@@ -169,30 +213,50 @@ definitions:
       password:
         type: string
     type: object
+  secretary-app_internal_http_dto.RejectCommandRequest:
+    properties:
+      feedback:
+        type: string
+    type: object
+  secretary-app_internal_http_dto.SyncResponse:
+    properties:
+      created:
+        type: integer
+      errors:
+        items:
+          type: string
+        type: array
+      updated:
+        type: integer
+    type: object
   secretary-app_internal_http_dto.TaskCommentResponse:
     properties:
-      authorId:
+      author_id:
         type: string
       content:
         type: string
-      createdAt:
+      created_at:
         type: string
       id:
         type: string
-      taskId:
+      task_id:
         type: string
     type: object
   secretary-app_internal_http_dto.TaskResponse:
     properties:
-      assigneeId:
+      assignee_id:
         type: string
-      createdAt:
+      created_at:
         type: string
-      createdBy:
+      created_by:
         type: string
       deadline:
         type: string
       description:
+        type: string
+      external_id:
+        type: string
+      external_source:
         type: string
       id:
         type: string
@@ -202,40 +266,42 @@ definitions:
         type: string
       title:
         type: string
-      updatedAt:
+      updated_at:
         type: string
-      workspaceId:
-        type: string
-    type: object
-  secretary-app_internal_http_dto.TokensResponse:
-    properties:
-      accessToken:
-        type: string
-      refreshToken:
+      workspace_id:
         type: string
     type: object
   secretary-app_internal_http_dto.UpdateCalendarEventRequest:
     properties:
-      clearLocation:
+      clear_location:
         type: boolean
       description:
         type: string
-      endTime:
+      end_time:
         type: string
       location:
         type: string
-      startTime:
+      start_time:
+        type: string
+      title:
+        type: string
+    type: object
+  secretary-app_internal_http_dto.UpdateReportPresetRequest:
+    properties:
+      description:
+        type: string
+      prompt:
         type: string
       title:
         type: string
     type: object
   secretary-app_internal_http_dto.UpdateTaskRequest:
     properties:
-      assigneeId:
+      assignee_id:
         type: string
-      clearAssignee:
+      clear_assignee:
         type: boolean
-      clearDeadline:
+      clear_deadline:
         type: boolean
       deadline:
         type: string
@@ -255,7 +321,7 @@ definitions:
     type: object
   secretary-app_internal_http_dto.UserResponse:
     properties:
-      createdAt:
+      created_at:
         type: string
       email:
         type: string
@@ -266,13 +332,13 @@ definitions:
     type: object
   secretary-app_internal_http_dto.WorkspaceResponse:
     properties:
-      createdAt:
+      created_at:
         type: string
       id:
         type: string
       name:
         type: string
-      ownerId:
+      owner_id:
         type: string
     type: object
   secretary-app_internal_http_httputils.ErrorResponse:
@@ -280,20 +346,38 @@ definitions:
       details: {}
       message:
         type: string
+      meta:
+        $ref: '#/definitions/secretary-app_internal_http_httputils.Meta'
+    type: object
+  secretary-app_internal_http_httputils.Meta:
+    properties:
+      pagination:
+        $ref: '#/definitions/secretary-app_internal_http_httputils.Pagination'
+      request_id:
+        type: string
     type: object
   secretary-app_internal_http_httputils.PaginatedResponse:
     properties:
-      currentPage:
-        type: integer
       data: {}
-      totalCount:
+      meta:
+        $ref: '#/definitions/secretary-app_internal_http_httputils.Meta'
+    type: object
+  secretary-app_internal_http_httputils.Pagination:
+    properties:
+      current_page:
         type: integer
-      totalPages:
+      per_page:
+        type: integer
+      total_count:
+        type: integer
+      total_pages:
         type: integer
     type: object
   secretary-app_internal_http_httputils.SuccessResponse:
     properties:
       data: {}
+      meta:
+        $ref: '#/definitions/secretary-app_internal_http_httputils.Meta'
     type: object
   secretary-app_internal_http_httputils.ValidationErrorResponse:
     properties:
@@ -305,15 +389,135 @@ definitions:
         type: object
       message:
         type: string
+      meta:
+        $ref: '#/definitions/secretary-app_internal_http_httputils.Meta'
     type: object
-  secretary-app_internal_service.CommandResult:
+  secretary-app_internal_service.CommandPreview:
     properties:
-      actionsExecuted:
+      actions:
         items:
           $ref: '#/definitions/secretary-app_internal_domain.Action'
         type: array
-      humanResponse:
+      human_response:
         type: string
+      session_id:
+        type: string
+      status:
+        type: string
+    type: object
+  secretary-app_internal_service.CommandResult:
+    properties:
+      actions_executed:
+        items:
+          $ref: '#/definitions/secretary-app_internal_domain.Action'
+        type: array
+      human_response:
+        type: string
+    type: object
+  secretary-app_internal_service.CommandSessionSummary:
+    properties:
+      actions:
+        items:
+          $ref: '#/definitions/secretary-app_internal_domain.Action'
+        type: array
+      created_at:
+        type: string
+      feedback:
+        type: string
+      human_response:
+        type: string
+      raw_input:
+        type: string
+      session_id:
+        type: string
+      status:
+        type: string
+    type: object
+  secretary-app_internal_service.DeadlineStatistics:
+    properties:
+      due_later:
+        type: integer
+      due_this_week:
+        type: integer
+      no_deadline:
+        type: integer
+      overdue:
+        type: integer
+    type: object
+  secretary-app_internal_service.GeneratedReport:
+    properties:
+      content:
+        type: string
+      generatedAt:
+        type: string
+      preset:
+        type: string
+      title:
+        type: string
+    type: object
+  secretary-app_internal_service.MemberStats:
+    properties:
+      by_priority:
+        additionalProperties:
+          type: integer
+        type: object
+      by_status:
+        additionalProperties:
+          type: integer
+        type: object
+      name:
+        type: string
+      role:
+        type: string
+      task_count:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  secretary-app_internal_service.ReportPresetResponse:
+    properties:
+      createdAt:
+        type: string
+      createdBy:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      prompt:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+      workspaceId:
+        type: string
+    type: object
+  secretary-app_internal_service.StatisticsReport:
+    properties:
+      deadlines:
+        $ref: '#/definitions/secretary-app_internal_service.DeadlineStatistics'
+      members:
+        items:
+          $ref: '#/definitions/secretary-app_internal_service.MemberStats'
+        type: array
+      tasks:
+        $ref: '#/definitions/secretary-app_internal_service.TaskStatistics'
+    type: object
+  secretary-app_internal_service.TaskStatistics:
+    properties:
+      by_priority:
+        additionalProperties:
+          type: integer
+        type: object
+      by_status:
+        additionalProperties:
+          type: integer
+        type: object
+      external:
+        type: integer
+      total:
+        type: integer
     type: object
 host: localhost:8000
 info:
@@ -339,12 +543,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/secretary-app_internal_http_dto.TokensResponse'
-              type: object
+            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -366,16 +565,7 @@ paths:
       - auth
   /auth/logout:
     post:
-      consumes:
-      - application/json
-      description: Client-side logout. The refresh token is discarded client-side;
-        no server state is changed.
-      parameters:
-      - description: Refresh token (optional)
-        in: body
-        name: request
-        schema:
-          $ref: '#/definitions/secretary-app_internal_http_dto.LogoutRequest'
+      description: Clears the refresh token cookie.
       produces:
       - application/json
       responses:
@@ -417,12 +607,12 @@ paths:
     post:
       consumes:
       - application/json
-      description: Exchange a refresh token (JWT) for a new token pair.
+      description: Exchange a refresh token (from cookie or body) for a new token
+        pair.
       parameters:
-      - description: Refresh token
+      - description: Refresh token (optional if sent via cookie)
         in: body
         name: request
-        required: true
         schema:
           $ref: '#/definitions/secretary-app_internal_http_dto.RefreshRequest'
       produces:
@@ -431,12 +621,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/secretary-app_internal_http_dto.TokensResponse'
-              type: object
+            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -465,12 +650,7 @@ paths:
         "201":
           description: Created
           schema:
-            allOf:
-            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/secretary-app_internal_http_dto.TokensResponse'
-              type: object
+            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
         "400":
           description: Bad Request
           schema:
@@ -490,6 +670,27 @@ paths:
       summary: Register a new user
       tags:
       - auth
+  /integrations/available:
+    get:
+      description: Returns a static list of supported providers with their config
+        field metadata.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/secretary-app_internal_http_dto.AvailableIntegration'
+                  type: array
+              type: object
+      summary: List available integration providers
+      tags:
+      - integrations
   /workspaces:
     get:
       produces:
@@ -909,9 +1110,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: Sends a plain-language request to the AI. The AI combines it with
-        the workspace business context and returns a structured action batch that
-        is immediately executed.
+      description: Sends a plain-language request to the AI. Returns a structured
+        action batch for user review without executing it.
       parameters:
       - description: Workspace ID
         in: path
@@ -934,7 +1134,7 @@ paths:
             - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/secretary-app_internal_service.CommandResult'
+                  $ref: '#/definitions/secretary-app_internal_service.CommandPreview'
               type: object
         "400":
           description: Bad Request
@@ -958,7 +1158,218 @@ paths:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
       security:
       - BearerAuth: []
-      summary: Execute a natural language command
+      summary: Preview a natural language command
+      tags:
+      - command
+  /workspaces/{workspaceId}/command/{sessionId}/confirm:
+    post:
+      description: Executes the actions from a pending command session.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Command Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.CommandResult'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Confirm and execute a previewed command
+      tags:
+      - command
+  /workspaces/{workspaceId}/command/{sessionId}/reject:
+    post:
+      consumes:
+      - application/json
+      description: Rejects a pending command session. If feedback is provided, regenerates
+        with clarifications and returns a new preview.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Command Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      - description: Optional feedback for regeneration
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/secretary-app_internal_http_dto.RejectCommandRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Reject a previewed command
+      tags:
+      - command
+  /workspaces/{workspaceId}/command/sessions:
+    get:
+      description: Returns paginated command sessions for the workspace.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Page number (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Items per page (default 20, max 100)
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/secretary-app_internal_service.CommandSessionSummary'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List command sessions
+      tags:
+      - command
+  /workspaces/{workspaceId}/command/sessions/{sessionId}:
+    delete:
+      description: Permanently deletes a command session.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Command Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a command session
+      tags:
+      - command
+    get:
+      description: Returns a single command session by ID.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Command Session ID
+        in: path
+        name: sessionId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.CommandSessionSummary'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get a command session
       tags:
       - command
   /workspaces/{workspaceId}/context:
@@ -1269,6 +1680,51 @@ paths:
       summary: Delete an integration
       tags:
       - integrations
+    get:
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Integration ID
+        in: path
+        name: integrationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_http_dto.IntegrationResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get an integration by ID
+      tags:
+      - integrations
   /workspaces/{workspaceId}/integrations/{integrationId}/regenerate-token:
     post:
       description: Generates a new 32-byte hex token for outbound authentication.
@@ -1316,10 +1772,10 @@ paths:
       summary: Regenerate integration API token
       tags:
       - integrations
-  /workspaces/{workspaceId}/integrations/{integrationId}/test:
+  /workspaces/{workspaceId}/integrations/{integrationId}/sync:
     post:
-      description: Verifies that the integration credentials are valid and the external
-        service is reachable. Full implementation in Phase 3.
+      description: Fetches tasks from the external system and upserts them as local
+        tasks.
       parameters:
       - description: Workspace ID
         in: path
@@ -1337,13 +1793,74 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_http_dto.SyncResponse'
+              type: object
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Sync tasks from external integration
+      tags:
+      - integrations
+  /workspaces/{workspaceId}/integrations/{integrationId}/test:
+    post:
+      description: Verifies that the integration credentials are valid and the external
+        service is reachable.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Integration ID
+        in: path
+        name: integrationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_http_dto.HealthCheckResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "502":
+          description: Bad Gateway
           schema:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
       security:
@@ -1436,40 +1953,302 @@ paths:
       summary: Invite a member to the workspace
       tags:
       - workspaces
-  /workspaces/{workspaceId}/reports/performance:
-    get:
-      description: Returns employee performance metrics (task completion rate, on-time
-        rate). Full implementation in Phase 2.
+  /workspaces/{workspaceId}/reports/generate:
+    post:
+      consumes:
+      - application/json
+      description: Generates a report based on a preset and optional additional query.
       parameters:
       - description: Workspace ID
         in: path
         name: workspaceId
         required: true
         type: string
+      - description: Report generation parameters
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/secretary-app_internal_http_dto.GenerateReportRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.GeneratedReport'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
-        "403":
-          description: Forbidden
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
       security:
       - BearerAuth: []
-      summary: Get performance report
+      summary: Generate an AI-powered report
+      tags:
+      - reports
+  /workspaces/{workspaceId}/reports/presets:
+    get:
+      description: Returns all report presets for the workspace.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/secretary-app_internal_service.ReportPresetResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List report presets
+      tags:
+      - reports
+    post:
+      consumes:
+      - application/json
+      description: Creates a new report preset for the workspace. Admin only.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Preset data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/secretary-app_internal_http_dto.CreateReportPresetRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.ReportPresetResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a report preset
+      tags:
+      - reports
+  /workspaces/{workspaceId}/reports/presets/{presetId}:
+    delete:
+      description: Soft-deletes a report preset. Admin only.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Preset ID
+        in: path
+        name: presetId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a report preset
+      tags:
+      - reports
+    patch:
+      consumes:
+      - application/json
+      description: Updates an existing report preset. Admin only.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      - description: Preset ID
+        in: path
+        name: presetId
+        required: true
+        type: string
+      - description: Fields to update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/secretary-app_internal_http_dto.UpdateReportPresetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.ReportPresetResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a report preset
+      tags:
+      - reports
+  /workspaces/{workspaceId}/reports/presets/seed:
+    post:
+      description: Creates default report presets if the workspace has none. Returns
+        existing presets if already seeded.
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/secretary-app_internal_service.ReportPresetResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Seed default report presets
+      tags:
+      - reports
+  /workspaces/{workspaceId}/reports/statistics:
+    get:
+      description: Returns task/deadline/member statistics computed from DB data (no
+        AI).
+      parameters:
+      - description: Workspace ID
+        in: path
+        name: workspaceId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/secretary-app_internal_service.StatisticsReport'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get task statistics
       tags:
       - reports
   /workspaces/{workspaceId}/reports/workload:
     get:
-      description: Returns task distribution across workspace members — open tasks
-        per member with priority breakdown.
+      description: Returns task distribution across workspace members.
       parameters:
       - description: Workspace ID
         in: path
@@ -1485,10 +2264,6 @@ paths:
             $ref: '#/definitions/secretary-app_internal_http_httputils.SuccessResponse'
         "401":
           description: Unauthorized
-          schema:
-            $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
-        "403":
-          description: Forbidden
           schema:
             $ref: '#/definitions/secretary-app_internal_http_httputils.ErrorResponse'
         "500":

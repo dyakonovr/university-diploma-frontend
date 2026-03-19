@@ -96,7 +96,7 @@
                 </tag-ui>
               </div>
               <span class="report-statistics__member-total">
-                {{ member.task_count }} {{ taskWord(member.task_count) }}
+                {{ member.task_count }} {{ pluralizeRu(member.task_count, 'задача', 'задачи', 'задач') }}
               </span>
             </div>
 
@@ -129,14 +129,15 @@
 </template>
 
 <script setup lang="ts">
+import LoadingWrapper from '~/components/ui/LoadingWrapper.vue';
+import TagUi from '~/components/ui/TagUi.vue';
+import type { StatisticsReport } from '~/domain/report/models/report.types';
 import { PRIORITY_LABELS, PRIORITY_TAG, STATUS_LABELS, STATUS_TAG } from '~/domain/task/constants/task.constants';
 import type { TaskPriority, TaskStatus } from '~/domain/task/models/task.types';
-import type { StatisticsReport } from '~/domain/report/models/report.types';
 import { ROLE_LABELS, ROLE_TAG } from '~/domain/workspace/constants/workspace-member.constants';
 import type { WorkspaceMemberRole } from '~/domain/workspace/models/workspace-member.types';
 import type { TagType } from '~/shared/types/ui/tag.types';
-import LoadingWrapper from '~/components/ui/LoadingWrapper.vue';
-import TagUi from '~/components/ui/TagUi.vue';
+import { pluralizeRu } from '~/shared/utils/pluralizeRu';
 
 type Props = {
   statistics: StatisticsReport | null;
@@ -144,15 +145,6 @@ type Props = {
 };
 
 defineProps<Props>();
-
-function taskWord(count: number): string {
-  const mod10 = count % 10;
-  const mod100 = count % 100;
-  if (mod100 >= 11 && mod100 <= 19) return 'задач';
-  if (mod10 === 1) return 'задача';
-  if (mod10 >= 2 && mod10 <= 4) return 'задачи';
-  return 'задач';
-}
 </script>
 
 <style lang="scss">
