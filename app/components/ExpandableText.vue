@@ -6,7 +6,7 @@
         v-if="isTruncated"
         type="button"
         class="expandable-text__more"
-        :title="t('expandTextButton')"
+        title="Развернуть текст"
         @click="expand"
       >
         …
@@ -55,9 +55,6 @@ function expand() {
   expanded.value = true;
 }
 
-const { t } = useI18n({
-  useScope: 'local',
-});
 </script>
 
 <style scoped>
@@ -70,14 +67,3 @@ const { t } = useI18n({
   color: inherit;
 }
 </style>
-
-<i18n lang="json">
-{
-  "ru": {
-    "expandTextButton": "Развернуть текст"
-  },
-  "en": {
-    "expandTextButton": "Expand text"
-  }
-}
-</i18n>

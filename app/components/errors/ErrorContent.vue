@@ -57,7 +57,7 @@ const title = computed(() => {
   if (code === 403) return 'Доступ запрещён';
   if (code && code >= 500) return 'Внутренняя ошибка';
 
-  return t('errors.unknown.title');
+  return 'Неизвестная ошибка';
 });
 
 const description = computed(() => {
@@ -67,7 +67,7 @@ const description = computed(() => {
   if (code === 403) return 'Доступ запрещён';
   if (code && code >= 500) return 'Внутренняя ошибка';
 
-  return t('errors.unknown.description');
+  return 'Неизвестная ошибка';
 });
 
 </script>
