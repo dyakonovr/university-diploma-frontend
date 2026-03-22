@@ -7,16 +7,19 @@ export const SESSION_STATUS_LABELS: Record<CommandSessionStatus, string> = {
   pending: 'Ожидает',
   confirmed: 'Подтверждено',
   rejected: 'Отклонено',
+  failed: 'Ошибка',
 };
 
 export const SESSION_STATUS_TAG: Record<CommandSessionStatus, TagType> = {
   pending: 'warning',
   confirmed: 'success',
   rejected: 'error',
+  failed: 'error',
 };
 
 export const SESSION_STATUS_OPTIONS: SelectOption<CommandSessionStatus>[] = [
   { label: 'Ожидает', value: 'pending' },
   { label: 'Подтверждено', value: 'confirmed' },
   { label: 'Отклонено', value: 'rejected' },
+  { label: 'Ошибка', value: 'failed' },
 ];

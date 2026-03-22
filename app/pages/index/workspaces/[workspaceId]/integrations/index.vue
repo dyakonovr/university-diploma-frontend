@@ -28,6 +28,15 @@
           {{ item.is_active ? 'Активна' : 'Неактивна' }}
         </tag-ui>
       </template>
+      <template #last_synced_at="item">
+        <span v-if="item.last_synced_at">
+          {{ new Date(item.last_synced_at).toLocaleString('ru-RU') }}
+        </span>
+        <span
+          v-else
+          style="color: var(--text-light, #999)"
+        >—</span>
+      </template>
       <template #actions="item">
         <table-action-menu
           :edit-link="`/workspaces/${workspaceId}/integrations/${item.id}`"
@@ -67,6 +76,7 @@ const TABLE_COLUMNS: TableViewHeaderColumn[] = [
   { prop: 'name', label: 'Название', minWidth: 180 },
   { prop: 'type', label: 'Тип', width: 160 },
   { prop: 'is_active', label: 'Статус', width: 140 },
+  { prop: 'last_synced_at', label: 'Последняя синхр.', width: 180 },
   { prop: 'actions', label: 'Действия', fixed: 'right', width: 120 },
 ];
 

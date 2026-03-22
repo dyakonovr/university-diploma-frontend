@@ -64,13 +64,11 @@ export function deleteIntegration(id: EntityId, workspaceId: EntityId) {
 export function regenerateIntegrationToken(
   id: EntityId,
   workspaceId: EntityId,
-  data: IntegrationCreate,
 ) {
-  return request<Response<{ api_token: string }>>({
+  return request<Response<{ apiToken: string; tokenExpiresAt: string }>>({
     baseUrl: "MAIN",
     url: `/workspaces/${workspaceId}/integrations/${id}/regenerate-token`,
     method: "POST",
-    data,
   });
 }
 

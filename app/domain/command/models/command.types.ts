@@ -1,6 +1,6 @@
 import type { BaseEntity } from '~/shared/types/core/base-entity.types';
 
-export type CommandSessionStatus = 'pending' | 'confirmed' | 'rejected';
+export type CommandSessionStatus = 'pending' | 'confirmed' | 'rejected' | 'failed';
 
 export type CommandAction = {
   type: string;

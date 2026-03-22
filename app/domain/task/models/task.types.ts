@@ -20,11 +20,14 @@ export type Task = BaseEntity & {
   description: string | null;
   priority: TaskPriority;
   status: TaskStatus;
+  progress: number;
   deadline: string | null;
   created_at: string;
   updated_at: string;
   external_id: string | null;
   external_source: string | null;
+  integration_id: string | null;
+  external_link: string | null;
 };
 
 /** Request body for creating a task (matches backend CreateTaskRequest) */
@@ -44,6 +47,7 @@ export type TaskUpdate = {
   clear_assignee?: boolean;
   priority?: string;
   status?: string;
+  progress?: number;
   deadline?: string | null;
   clear_deadline?: boolean;
 };

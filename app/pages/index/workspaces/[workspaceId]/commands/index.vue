@@ -151,6 +151,7 @@ const {
   confirmPreview,
   rejectPreview,
   handleKeydown,
+  clearMessages,
 } = useCommandsChat(workspaceId);
 
 // Sessions
@@ -187,6 +188,7 @@ const onSelectSession = async (id: string) => {
 
 const onNewSession = () => {
   startNewSession();
+  clearMessages();
 };
 
 // Delete session

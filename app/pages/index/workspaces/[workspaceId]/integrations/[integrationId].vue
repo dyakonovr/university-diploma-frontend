@@ -95,6 +95,22 @@
         </div>
       </form-wrapper-ui>
 
+      <form-wrapper-ui
+        v-if="lastSyncedAt"
+        label="Последняя синхронизация"
+      >
+        <span>{{ lastSyncedAt }}</span>
+      </form-wrapper-ui>
+
+      <form-wrapper-ui
+        v-if="tokenExpiresAt"
+        label="Срок действия токена"
+      >
+        <tag-ui :type="isTokenExpired ? 'error' : 'success'">
+          {{ isTokenExpired ? 'Истёк' : tokenExpiresAt }}
+        </tag-ui>
+      </form-wrapper-ui>
+
       <form-wrapper-ui label="Синхронизация задач">
         <div class="integration-form-page__action-row">
           <button-ui
@@ -149,6 +165,9 @@ const {
   testError,
   syncing,
   syncResult,
+  lastSyncedAt,
+  tokenExpiresAt,
+  isTokenExpired,
   configValues,
   currentConfigFields,
   loadAvailableIntegrations,

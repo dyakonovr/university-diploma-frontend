@@ -23,7 +23,7 @@ export type PreviewMessage = {
   sessionId: string;
   actions: CommandAction[];
   humanResponse: string;
-  status: 'pending' | 'confirming' | 'rejecting' | 'confirmed' | 'rejected';
+  status: 'pending' | 'confirming' | 'rejecting' | 'confirmed' | 'rejected' | 'failed';
   feedback: string;
   timestamp: string;
 };
@@ -62,15 +62,25 @@ function useCommandsChat(workspaceId: string) {
     try {
       const response = await postCommand(workspaceId, { text });
       const data = response.data;
-      messages.value.push({
-        type: 'preview',
-        sessionId: data.session_id,
-        actions: data.actions,
-        humanResponse: data.human_response,
-        status: 'pending',
-        feedback: '',
-        timestamp: getTime(),
-      });
+
+      // If no actions — show human_response as a system message (e.g. "список задач")
+      if (!data.actions || data.actions.length === 0) {
+        messages.value.push({
+          type: 'system',
+          text: data.human_response || 'Команда обработана.',
+          timestamp: getTime(),
+        });
+      } else {
+        messages.value.push({
+          type: 'preview',
+          sessionId: data.session_id,
+          actions: data.actions,
+          humanResponse: data.human_response,
+          status: 'pending',
+          feedback: '',
+          timestamp: getTime(),
+        });
+      }
     } catch {
       toastError('Ошибка при выполнении команды');
       messages.value.push({
@@ -140,6 +150,11 @@ function useCommandsChat(workspaceId: string) {
     }
   };
 
+  const clearMessages = () => {
+    messages.value = [];
+    commandText.value = '';
+  };
+
   return {
     messages,
     commandText,
@@ -149,6 +164,7 @@ function useCommandsChat(workspaceId: string) {
     confirmPreview,
     rejectPreview,
     handleKeydown,
+    clearMessages,
   };
 }
 

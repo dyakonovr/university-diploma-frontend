@@ -16,6 +16,8 @@ export type Integration = BaseEntity &
   IntegrationBase & {
     created_at: string;
     deleted_at: string;
+    last_synced_at?: string | null;
+    token_expires_at?: string | null;
   };
 
 /** Config field descriptor returned by GET /integrations/available */

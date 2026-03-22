@@ -72,6 +72,21 @@
       <span>{{ status === 'confirming' ? 'Подтверждение...' : 'Отклонение...' }}</span>
     </div>
 
+    <!-- Failed: show retry button -->
+    <div
+      v-if="status === 'failed'"
+      class="command-preview__buttons"
+    >
+      <tag-ui type="error">Ошибка выполнения</tag-ui>
+      <button-ui
+        color="primary"
+        size="small"
+        @click="$emit('confirm')"
+      >
+        Повторить
+      </button-ui>
+    </div>
+
     <!-- Confirmed / Rejected -->
     <div
       v-if="status === 'confirmed' || status === 'rejected'"
@@ -97,7 +112,7 @@ import type { CommandAction } from '~/domain/command/models/command.types';
 defineProps<{
   actions: CommandAction[];
   humanResponse: string;
-  status: 'pending' | 'confirming' | 'rejecting' | 'confirmed' | 'rejected';
+  status: 'pending' | 'confirming' | 'rejecting' | 'confirmed' | 'rejected' | 'failed';
   timestamp: string;
   feedback: string;
 }>();

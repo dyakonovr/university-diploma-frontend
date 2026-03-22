@@ -17,6 +17,12 @@
           :disabled="saving"
         />
         <select-ui
+          v-model="formData.assignee_id"
+          label="Исполнитель"
+          :options="memberOptions"
+          :select-props="{ placeholder: 'Не назначен', disabled: saving }"
+        />
+        <select-ui
           v-model="formData.priority"
           label="Приоритет"
           :options="PRIORITY_OPTIONS"
@@ -29,6 +35,19 @@
           :options="STATUS_OPTIONS"
           :searchable="false"
           :select-props="{ disabled: saving || !isEditMode }"
+        />
+        <input-ui
+          v-model="formData.progress"
+          label="Прогресс"
+          :input-props="{
+            type: 'number',
+            min: 0,
+            max: 100,
+            placeholder: '0',
+            disabled: saving || !isEditMode,
+          }"
+          :clearable="false"
+          :error="formErrors.progress"
         />
         <datepicker-ui
           v-model="formData.deadline"
@@ -44,6 +63,29 @@
       @cancel="getBack"
       @submit="onSubmit"
     />
+
+    <!-- Внешний источник -->
+    <div
+      v-if="isEditMode && (externalSource || externalLink)"
+      class="task-external-info"
+    >
+      <tag-ui
+        v-if="externalSource"
+        type="info"
+      >
+        {{ externalSource }}
+        <template v-if="externalId"> #{{ externalId }}</template>
+      </tag-ui>
+      <a
+        v-if="externalLink"
+        :href="externalLink"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="task-external-info__link"
+      >
+        Открыть в {{ externalSource || 'источнике' }}
+      </a>
+    </div>
 
     <!-- Комментарии (только в режиме редактирования) -->
     <div
@@ -120,6 +162,7 @@ import FormContainer from '~/components/ui/form/FormContainer.vue';
 import InputUi from '~/components/ui/form/InputUi.vue';
 import SelectUi from '~/components/ui/form/select/SelectUi.vue';
 import SpinnerUi from '~/components/ui/SpinnerUi.vue';
+import TagUi from '~/components/ui/TagUi.vue';
 import {
   PRIORITY_OPTIONS,
   STATUS_OPTIONS,
@@ -144,6 +187,10 @@ const {
   isEditMode,
   formData,
   formErrors,
+  memberOptions,
+  externalLink,
+  externalId,
+  externalSource,
   getData,
   onSubmit,
   getBack,
@@ -197,6 +244,24 @@ useAccountSeoTitle(PAGE_TITLE);
 .task-form-page {
   display: flex;
   flex-direction: column;
+}
+
+.task-external-info {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__link {
+    font-size: 13px;
+    color: colors.$primary;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .task-comments {

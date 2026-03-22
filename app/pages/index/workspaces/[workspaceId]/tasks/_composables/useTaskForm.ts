@@ -3,6 +3,7 @@ import type {
   TaskPriority,
   TaskStatus,
 } from '~/domain/task/models/task.types';
+import { getWorkspaceMembers } from '~/domain/workspace/api/workspace-member.api';
 import { useCustomToast } from "~/shared/composables/useCustomToast";
 import useGetBack from "~/shared/composables/useGetBack";
 import { ERROR_REQUIRED_FIELD } from "~/shared/constants/core/validation-errors.const";
@@ -13,6 +14,7 @@ import type {
   FormFields,
   FormRules,
 } from "~/shared/types/core/form-validation.types";
+import type { SelectOption } from '~/shared/types/ui/select.types';
 import {
   clearFormValidation,
   setBackendErrors,
@@ -23,8 +25,10 @@ import { showRequestError } from "~/shared/utils/core/show-request-error";
 type TaskForm = {
   title: string;
   description: string;
+  assignee_id: string | null;
   priority: TaskPriority;
   status: TaskStatus;
+  progress: number;
   deadline: Date | null;
 };
 
@@ -38,19 +42,29 @@ function useTaskForm(workspaceId: string) {
   const editId = ref<EntityId | null>(null);
   const isEditMode = computed(() => editId.value !== null);
 
+  const externalLink = ref<string | null>(null);
+  const externalId = ref<string | null>(null);
+  const externalSource = ref<string | null>(null);
+
+  const memberOptions = ref<SelectOption[]>([]);
+
   const formData = ref<FormFields<TaskForm>>({
     title: null,
     description: null,
+    assignee_id: null,
     priority: "medium",
     status: "backlog",
+    progress: 0,
     deadline: null,
   });
 
   const formErrors = reactive<FormErrors<TaskForm>>({
     title: "",
     description: "",
+    assignee_id: "",
     priority: "",
     status: "",
+    progress: "",
     deadline: "",
   });
 
@@ -64,7 +78,21 @@ function useTaskForm(workspaceId: string) {
     },
   });
 
+  const loadMembers = async () => {
+    try {
+      const response = await getWorkspaceMembers(workspaceId);
+      memberOptions.value = response.data.map((m) => ({
+        label: m.name,
+        value: m.id,
+      }));
+    } catch {
+      // non-critical
+    }
+  };
+
   const getData = async () => {
+    await loadMembers();
+
     if (route.params.taskId && route.params.taskId !== "create") {
       editId.value = route.params.taskId as EntityId;
       loading.value = true;
@@ -74,10 +102,15 @@ function useTaskForm(workspaceId: string) {
         formData.value = {
           title: task.title,
           description: task.description,
+          assignee_id: task.assignee_id,
           priority: task.priority,
           status: task.status,
+          progress: task.progress,
           deadline: task.deadline ? new Date(task.deadline) : null,
         };
+        externalLink.value = task.external_link ?? null;
+        externalId.value = task.external_id ?? null;
+        externalSource.value = task.external_source ?? null;
       } catch (e) {
         toastError("Ошибка при получении задачи");
         showRequestError(e);
@@ -109,8 +142,11 @@ function useTaskForm(workspaceId: string) {
         await updateTask(editId.value, workspaceId, {
           title: formData.value.title ?? undefined,
           description: formData.value.description,
+          assignee_id: formData.value.assignee_id ?? undefined,
+          clear_assignee: formData.value.assignee_id === null,
           priority: formData.value.priority ?? undefined,
           status: formData.value.status ?? undefined,
+          progress: formData.value.progress ?? undefined,
           deadline,
         });
         toastSuccess('Задача обновлена');
@@ -119,6 +155,7 @@ function useTaskForm(workspaceId: string) {
           title: formData.value.title ?? '',
           priority: formData.value.priority ?? 'medium',
           description: formData.value.description,
+          assignee_id: formData.value.assignee_id,
           deadline,
         });
         toastSuccess('Задача создана');
@@ -144,6 +181,10 @@ function useTaskForm(workspaceId: string) {
     isEditMode,
     formData,
     formErrors,
+    memberOptions,
+    externalLink,
+    externalId,
+    externalSource,
     getData,
     onSubmit,
     getBack,

@@ -50,6 +50,18 @@
           {{ STATUS_LABELS[item.status] }}
         </tag-ui>
       </template>
+      <template #external_source="item">
+        <tag-ui
+          v-if="item.external_source"
+          type="info"
+        >
+          {{ item.external_source }}
+        </tag-ui>
+        <span
+          v-else
+          class="tasks-page__no-deadline"
+        >—</span>
+      </template>
       <template #deadline="item">
         <span v-if="item.deadline">
           {{ new Date(item.deadline).toLocaleDateString('ru-RU') }}
@@ -108,6 +120,7 @@ const TABLE_COLUMNS: TableViewHeaderColumn[] = [
   { prop: 'title', label: 'Название', minWidth: 200 },
   { prop: 'priority', label: 'Приоритет', width: 140 },
   { prop: 'status', label: 'Статус', width: 150 },
+  { prop: 'external_source', label: 'Источник', width: 140 },
   { prop: 'deadline', label: 'Дедлайн', width: 140 },
   { prop: 'actions', label: 'Действия', fixed: 'right', width: 120 },
 ];

@@ -49,6 +49,15 @@ function useIntegrationForm(workspaceId: string) {
   const testResult = ref<"ok" | "error" | null>(null);
   const testError = ref<string | null>(null);
 
+  const lastSyncedAt = ref<string | null>(null);
+  const tokenExpiresAt = ref<string | null>(null);
+  const tokenExpiresAtRaw = ref<string | null>(null);
+
+  const isTokenExpired = computed(() => {
+    if (!tokenExpiresAtRaw.value) return false;
+    return new Date(tokenExpiresAtRaw.value) < new Date();
+  });
+
   const syncing = ref(false);
   const syncResult = ref<{
     created: number;
@@ -109,6 +118,14 @@ function useIntegrationForm(workspaceId: string) {
           type: integration.type,
         };
         apiToken.value = integration.api_token || null;
+
+        if (integration.last_synced_at) {
+          lastSyncedAt.value = new Date(integration.last_synced_at).toLocaleString('ru-RU');
+        }
+        if (integration.token_expires_at) {
+          tokenExpiresAtRaw.value = integration.token_expires_at;
+          tokenExpiresAt.value = new Date(integration.token_expires_at).toLocaleString('ru-RU');
+        }
 
         // Populate config values from saved integration
         if (integration.config) {
@@ -182,9 +199,12 @@ function useIntegrationForm(workspaceId: string) {
       const response = await regenerateIntegrationToken(
         editId.value,
         workspaceId,
-        formData.value as IntegrationCreate,
       );
-      apiToken.value = response.data.api_token;
+      apiToken.value = response.data.apiToken;
+      if (response.data.tokenExpiresAt) {
+        tokenExpiresAtRaw.value = response.data.tokenExpiresAt;
+        tokenExpiresAt.value = new Date(response.data.tokenExpiresAt).toLocaleString('ru-RU');
+      }
       tokenVisible.value = true;
       toastSuccess("Токен обновлён");
     } catch {
@@ -249,6 +269,9 @@ function useIntegrationForm(workspaceId: string) {
     testError,
     syncing,
     syncResult,
+    lastSyncedAt,
+    tokenExpiresAt,
+    isTokenExpired,
     availableIntegrations,
     configValues,
     configErrors,
