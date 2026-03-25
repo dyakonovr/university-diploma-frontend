@@ -2,9 +2,89 @@ import type { BaseEntity } from '~/shared/types/core/base-entity.types';
 
 export type CommandSessionStatus = 'pending' | 'confirmed' | 'rejected' | 'failed';
 
+export type CommandActionType =
+  | 'task.create'
+  | 'task.update'
+  | 'task.assign'
+  | 'task.status'
+  | 'task.delete'
+  | 'calendar_event.create'
+  | 'calendar_event.update'
+  | 'calendar_event.delete'
+  | 'message.send';
+
+export type TaskCreatePayload = {
+  title: string;
+  description?: string;
+  assignee_id?: string;
+  priority?: 'low' | 'medium' | 'high' | 'critical';
+  deadline?: string;
+};
+
+export type TaskUpdatePayload = {
+  task_id: string;
+  title?: string;
+  description?: string;
+  assignee_id?: string;
+  priority?: string;
+  status?: string;
+  deadline?: string;
+};
+
+export type TaskAssignPayload = {
+  task_id: string;
+  assignee_id: string;
+};
+
+export type TaskStatusPayload = {
+  task_id: string;
+  status: 'backlog' | 'in_progress' | 'review' | 'done' | 'cancelled';
+};
+
+export type TaskDeletePayload = {
+  task_id: string;
+};
+
+export type CalendarEventCreatePayload = {
+  title: string;
+  description?: string;
+  start_time: string;
+  end_time: string;
+  location?: string;
+};
+
+export type CalendarEventUpdatePayload = {
+  event_id: string;
+  title?: string;
+  description?: string;
+  start_time?: string;
+  end_time?: string;
+  location?: string;
+};
+
+export type CalendarEventDeletePayload = {
+  event_id: string;
+};
+
+export type MessageSendPayload = {
+  text: string;
+  channel_name?: string;
+};
+
+export type CommandActionPayload =
+  | TaskCreatePayload
+  | TaskUpdatePayload
+  | TaskAssignPayload
+  | TaskStatusPayload
+  | TaskDeletePayload
+  | CalendarEventCreatePayload
+  | CalendarEventUpdatePayload
+  | CalendarEventDeletePayload
+  | MessageSendPayload;
+
 export type CommandAction = {
-  type: string;
-  payload: Record<string, unknown>;
+  type: CommandActionType;
+  payload: CommandActionPayload;
 };
 
 export type CommandRequest = {

@@ -9,14 +9,27 @@
       class="command-preview__actions"
     >
       <p class="command-preview__actions-title">Запланированные действия:</p>
-      <div class="command-preview__actions-list">
-        <tag-ui
-          v-for="(action, i) in actions"
-          :key="i"
-          type="info"
-        >
-          {{ action.type }}
+      <div
+        v-for="(action, i) in actions"
+        :key="i"
+        class="command-preview__action"
+      >
+        <tag-ui :type="ACTION_TYPE_TAG[action.type] || 'info'">
+          {{ ACTION_TYPE_LABELS[action.type] || action.type }}
         </tag-ui>
+        <div
+          v-if="getActionDetails(action).length"
+          class="command-preview__action-details"
+        >
+          <span
+            v-for="(detail, j) in getActionDetails(action)"
+            :key="j"
+            class="command-preview__action-detail"
+          >
+            <span class="command-preview__action-detail-label">{{ detail.label }}:</span>
+            {{ detail.value }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -107,7 +120,12 @@
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import SpinnerUi from '~/components/ui/SpinnerUi.vue';
 import TagUi from '~/components/ui/TagUi.vue';
-import type { CommandAction } from '~/domain/command/models/command.types';
+import {
+  ACTION_TYPE_LABELS,
+  ACTION_TYPE_TAG,
+} from '~/domain/command/constants/command.constants';
+import { PRIORITY_LABELS } from '~/domain/task/constants/task.constants';
+import type { CommandAction, CommandActionPayload } from '~/domain/command/models/command.types';
 
 defineProps<{
   actions: CommandAction[];
@@ -124,6 +142,68 @@ defineEmits<{
 }>();
 
 const showFeedback = ref(false);
+
+type ActionDetail = { label: string; value: string };
+
+/**
+ * Извлекает ключевые поля из payload действия для отображения
+ */
+function getActionDetails(action: CommandAction): ActionDetail[] {
+  const details: ActionDetail[] = [];
+  const p = action.payload as CommandActionPayload & Record<string, unknown>;
+
+  if ('title' in p && p.title) {
+    details.push({ label: 'Название', value: String(p.title) });
+  }
+
+  if ('priority' in p && p.priority) {
+    const key = String(p.priority) as keyof typeof PRIORITY_LABELS;
+    details.push({ label: 'Приоритет', value: PRIORITY_LABELS[key] || String(p.priority) });
+  }
+
+  if ('status' in p && p.status) {
+    details.push({ label: 'Статус', value: String(p.status) });
+  }
+
+  if ('deadline' in p && p.deadline) {
+    details.push({ label: 'Дедлайн', value: formatDateTime(String(p.deadline)) });
+  }
+
+  if ('start_time' in p && p.start_time) {
+    const start = formatDateTime(String(p.start_time));
+    const end = 'end_time' in p && p.end_time ? formatDateTime(String(p.end_time)) : '';
+    details.push({ label: 'Время', value: end ? `${start} — ${end}` : start });
+  }
+
+  if ('location' in p && p.location) {
+    details.push({ label: 'Место', value: String(p.location) });
+  }
+
+  if ('channel_name' in p && p.channel_name) {
+    details.push({ label: 'Канал', value: String(p.channel_name) });
+  }
+
+  if ('text' in p && p.text && action.type === 'message.send') {
+    details.push({ label: 'Текст', value: String(p.text) });
+  }
+
+  return details;
+}
+
+function formatDateTime(iso: string): string {
+  try {
+    const date = new Date(iso);
+    return date.toLocaleString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  } catch {
+    return iso;
+  }
+}
 </script>
 
 <style lang="scss">
@@ -151,7 +231,7 @@ const showFeedback = ref(false);
   &__actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     padding: 12px;
     background: colors.$background;
     border-radius: 10px;
@@ -164,11 +244,29 @@ const showFeedback = ref(false);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
+  }
 
-    &-list {
+  &__action {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &-details {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px 12px;
+      padding-left: 4px;
+    }
+
+    &-detail {
+      font-size: 12px;
+      color: colors.$text;
+      line-height: 1.4;
+
+      &-label {
+        color: colors.$text-light;
+        font-weight: 500;
+      }
     }
   }
 
