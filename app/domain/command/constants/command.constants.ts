@@ -1,7 +1,7 @@
 import type { SelectOption } from '~/shared/types/ui/select.types';
 import type { TagType } from '~/shared/types/ui/tag.types';
 
-import type { CommandActionType, CommandSessionStatus } from '../models/command.types';
+import type { CommandActionType, CommandSessionStatus, PreviewStage } from '../models/command.types';
 
 export const SESSION_STATUS_LABELS: Record<CommandSessionStatus, string> = {
   pending: 'Ожидает',
@@ -23,6 +23,13 @@ export const SESSION_STATUS_OPTIONS: SelectOption<CommandSessionStatus>[] = [
   { label: 'Отклонено', value: 'rejected' },
   { label: 'Ошибка', value: 'failed' },
 ];
+
+export const PREVIEW_STAGE_LABELS: Record<PreviewStage, string> = {
+  building_context: 'Загрузка контекста...',
+  calling_ai: 'ИИ обрабатывает запрос...',
+  parsing_response: 'Анализ ответа...',
+  saving_session: 'Сохранение...',
+};
 
 export const ACTION_TYPE_LABELS: Record<CommandActionType, string> = {
   'task.create': 'Создание задачи',

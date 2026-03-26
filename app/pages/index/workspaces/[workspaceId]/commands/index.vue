@@ -89,15 +89,19 @@
               @confirm="confirmPreview(msg.sessionId)"
               @reject="rejectPreview(msg.sessionId)"
             />
-          </template>
 
-          <div
-            v-if="sending"
-            class="commands-page__typing"
-          >
-            <spinner-ui />
-            <span>Обрабатывается...</span>
-          </div>
+            <!-- Streaming stage indicator -->
+            <streaming-indicator
+              v-else-if="msg.type === 'streaming'"
+              :stage-label="msg.stageLabel"
+            />
+
+            <!-- Action progress during confirm -->
+            <action-progress-list
+              v-else-if="msg.type === 'progress'"
+              :actions="msg.actions"
+            />
+          </template>
         </div>
 
         <div class="commands-page__input-row">
@@ -132,15 +136,16 @@
 import DeleteConfirmationDialog from '~/components/dialogs/DeleteConfirmationDialog.vue';
 import ButtonUi from '~/components/ui/ButtonUi.vue';
 import InputUi from '~/components/ui/form/InputUi.vue';
-import SpinnerUi from '~/components/ui/SpinnerUi.vue';
 import { deleteCommandSession } from '~/domain/command/api/command.api';
 import type { CommandSession } from '~/domain/command/models/command.types';
 import useAccountSeoTitle from '~/shared/composables/useAccountSeoTitle';
 import useDeleteTableItem from '~/shared/composables/useDeleteTableItem';
 import { WORKSPACE_ID_KEY } from '~/shared/constants/provide-keys';
 
+import ActionProgressList from './_components/ActionProgressList.vue';
 import CommandPreview from './_components/CommandPreview.vue';
 import CommandSessionsList from './_components/CommandSessionsList.vue';
+import StreamingIndicator from './_components/StreamingIndicator.vue';
 import useCommandsChat from './_composables/useCommandsChat';
 import useCommandSessionDetail from './_composables/useCommandSessionDetail';
 import useCommandSessions from './_composables/useCommandSessions';
@@ -370,15 +375,6 @@ useAccountSeoTitle(PAGE_TITLE);
       opacity: 0.6;
       margin-top: 4px;
     }
-  }
-
-  &__typing {
-    align-self: flex-start;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: colors.$text-light;
   }
 
   &__input-row {

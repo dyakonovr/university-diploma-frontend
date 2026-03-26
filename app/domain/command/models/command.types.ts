@@ -107,6 +107,27 @@ export type CommandConfirmResponse = {
   human_response: string;
 };
 
+// --- SSE streaming types ---
+
+export type PreviewStage = 'building_context' | 'calling_ai' | 'parsing_response' | 'saving_session';
+
+export type PreviewStatusEvent = {
+  stage: PreviewStage;
+};
+
+export type ActionProgressEvent = {
+  index: number;
+  total: number;
+  action: CommandAction;
+  done?: boolean;
+  success?: boolean;
+  error?: string;
+};
+
+export type SSEErrorEvent = {
+  message: string;
+};
+
 /** Raw API response shape for a command session (backend uses session_id, not id) */
 export type CommandSessionRaw = {
   session_id: string;
