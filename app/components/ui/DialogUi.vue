@@ -129,7 +129,7 @@ onUnmounted(() => {
 }
 
 .dialog {
-  background: var(--color-bg, #fff);
+  background: var(--color-surface);
   border-radius: 8px;
   overflow: hidden;
   margin: 16px;

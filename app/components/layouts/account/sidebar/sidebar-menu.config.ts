@@ -1,32 +1,19 @@
+import ArrowLeftIcon from '@/assets/images/icons/arrow-left.svg';
 import ChevronRightDoubleIcon from '@/assets/images/icons/chevron-right-double.svg';
 import CpuIcon from '@/assets/images/icons/cpu.svg';
 import DashboardIcon from '@/assets/images/icons/dashboard.svg';
 import GlobeIcon from '@/assets/images/icons/globe.svg';
-import GridIcon from '@/assets/images/icons/grid.svg';
 import LayersIcon from '@/assets/images/icons/layers.svg';
-import LogOutIcon from '@/assets/images/icons/logout.svg';
 import ReceiptIcon from '@/assets/images/icons/receipt.svg';
 import SendIcon from '@/assets/images/icons/send.svg';
 import ServerIcon from '@/assets/images/icons/server.svg';
-import SettingsIcon from '@/assets/images/icons/settings.svg';
-import ProfileIcon from '@/assets/images/icons/user.svg';
 import UsersIcon from '@/assets/images/icons/users.svg';
 
 import type { SidebarMenuGroup } from './sidebar-menu.types';
 
 export const SIDEBAR_MENU_GROUPS: SidebarMenuGroup[] = [
   {
-    title: 'Воркспейсы',
-    children: [
-      {
-        type: 'route',
-        routeName: 'index-workspaces',
-        icon: GridIcon,
-      },
-    ],
-  },
-  {
-    title: 'Рабочее пространство',
+    title: '',
     workspaceOnly: true,
     children: [
       {
@@ -84,28 +71,11 @@ export const SIDEBAR_MENU_GROUPS: SidebarMenuGroup[] = [
     toBottom: true,
     children: [
       {
-        type: 'route',
-        routeName: 'index-settings',
-        icon: SettingsIcon,
-      },
-      {
-        type: 'route',
-        routeName: 'index-profile',
-        icon: ProfileIcon,
-      },
-      {
         type: 'action',
-        actionTitle: 'Выйти',
-        actionKey: 'logout',
-        actionItemClass: 'logout-button',
-        actionIcon: LogOutIcon,
+        actionTitle: 'Все воркспейсы',
+        actionKey: 'back-to-hub',
+        actionIcon: ArrowLeftIcon,
       },
-    ],
-  },
-  {
-    title: '',
-    toBottom: true,
-    children: [
       {
         type: 'action',
         actionTitle: 'Развернуть',

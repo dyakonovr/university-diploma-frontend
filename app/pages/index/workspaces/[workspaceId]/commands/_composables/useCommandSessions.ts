@@ -3,6 +3,7 @@ import type { CommandSession } from '~/domain/command/models/command.types';
 import { mapCommandSession } from '~/domain/command/models/command.types';
 import { useCustomToast } from '~/shared/composables/useCustomToast';
 import type { ResponsePagination } from '~/shared/types/core/request.types';
+import { mapPagination } from '~/shared/utils/core/mapPagination';
 import { showRequestError } from '~/shared/utils/core/show-request-error';
 
 function useCommandSessions(workspaceId: string) {
@@ -18,7 +19,7 @@ function useCommandSessions(workspaceId: string) {
     try {
       const response = await getCommandSessions(workspaceId);
       sessions.value = response.data.map(mapCommandSession);
-      meta.value = response.meta.pagination;
+      meta.value = mapPagination(response.meta.pagination);
     } catch (e) {
       toastError('Ошибка при загрузке сессий');
       showRequestError(e);

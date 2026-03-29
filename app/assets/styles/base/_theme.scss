@@ -1,0 +1,131 @@
+// Theme CSS custom properties
+// Used by layout chrome (sidebar, header, backgrounds, borders)
+// Components can gradually migrate from SCSS vars to CSS vars
+
+:root {
+  // Primary
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-primary-light: #818cf8;
+  --color-primary-disabled: #aeaff5;
+
+  // Accent
+  --color-accent: #f59e0b;
+  --color-accent-dark: #e09009;
+
+  // Semantic
+  --color-danger: #ef4444;
+  --color-danger-dark: #c13030;
+  --color-success: #10b981;
+  --color-success-dark: #0ca270;
+
+  // Surfaces
+  --color-background: #f8f9fa;
+  --color-surface: #fff;
+  --color-surface-hover: #f9fafb;
+  --color-surface-active: #f3f4f6;
+
+  // Text
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  // Borders
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+
+  // Sidebar
+  --sidebar-bg: #1f2937;
+  --sidebar-text: #9ca3af;
+  --sidebar-divider: rgba(255, 255, 255, 0.1);
+  --sidebar-active-bg: #6366f1;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+
+  // Hub top bar
+  --topbar-bg: #fff;
+  --topbar-border: #e5e7eb;
+  --topbar-text: #1f2937;
+  --topbar-text-secondary: #6b7280;
+  --topbar-hover-bg: #f3f4f6;
+  --topbar-active-bg: #eff6ff;
+  --topbar-active-text: #2563eb;
+}
+
+// Professional theme — clean slate/blue palette
+[data-theme="professional"] {
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #3b82f6;
+  --color-primary-disabled: #93c5fd;
+
+  --color-accent: #0ea5e9;
+  --color-accent-dark: #0284c7;
+
+  --color-background: #f8fafc;
+  --color-surface: #fff;
+  --color-surface-hover: #f8fafc;
+  --color-surface-active: #f1f5f9;
+
+  --color-text: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #94a3b8;
+  --sidebar-divider: rgba(255, 255, 255, 0.08);
+  --sidebar-active-bg: #2563eb;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+
+  --topbar-bg: #fff;
+  --topbar-border: #e2e8f0;
+  --topbar-text: #0f172a;
+  --topbar-text-secondary: #64748b;
+  --topbar-hover-bg: #f1f5f9;
+  --topbar-active-bg: #eff6ff;
+  --topbar-active-text: #2563eb;
+}
+
+// Dark theme
+[data-theme="dark"] {
+  --color-primary: #818cf8;
+  --color-primary-dark: #6366f1;
+  --color-primary-light: #a5b4fc;
+  --color-primary-disabled: #4f46e5;
+
+  --color-accent: #fbbf24;
+  --color-accent-dark: #f59e0b;
+
+  --color-danger: #f87171;
+  --color-danger-dark: #ef4444;
+  --color-success: #34d399;
+  --color-success-dark: #10b981;
+
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+  --color-surface-active: #475569;
+
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+
+  --color-border: #334155;
+  --color-border-light: #1e293b;
+
+  --sidebar-bg: #020617;
+  --sidebar-text: #94a3b8;
+  --sidebar-divider: rgba(255, 255, 255, 0.06);
+  --sidebar-active-bg: #6366f1;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
+
+  --topbar-bg: #1e293b;
+  --topbar-border: #334155;
+  --topbar-text: #f1f5f9;
+  --topbar-text-secondary: #94a3b8;
+  --topbar-hover-bg: #334155;
+  --topbar-active-bg: rgba(99, 102, 241, 0.15);
+  --topbar-active-text: #a5b4fc;
+}

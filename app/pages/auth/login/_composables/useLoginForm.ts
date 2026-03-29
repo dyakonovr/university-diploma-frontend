@@ -77,6 +77,11 @@ function useLoginForm() {
         return;
       }
 
+      if (e.statusCode === 403) {
+        toastError('Ваш аккаунт заблокирован');
+        return;
+      }
+
       if (e.statusCode !== 422) {
         toastError(`Ошибка авторизации: ${e.message}`);
         return;

@@ -4,6 +4,6 @@ export default defineNuxtRouteMiddleware(async () => {
   const userStore = useUserStore();
 
   if (!userStore.user || !userStore.isAdmin) {
-    return navigateTo('/account');
+    return navigateTo('/workspaces');
   }
 });

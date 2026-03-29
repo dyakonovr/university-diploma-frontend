@@ -96,8 +96,6 @@ useAccountSeoTitle(PAGE_TITLE);
 </script>
 
 <style lang="scss">
-@use '/assets/styles/base/colors' as colors;
-
 .workspace-dashboard {
   display: flex;
   flex-direction: column;
@@ -110,15 +108,15 @@ useAccountSeoTitle(PAGE_TITLE);
   }
 
   &__title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
-    color: colors.$text;
+    color: var(--color-text);
   }
 
   &__stats {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
+    gap: 12px;
   }
 
   &__actions {
@@ -129,22 +127,22 @@ useAccountSeoTitle(PAGE_TITLE);
 }
 
 .ws-stat-card {
-  background: colors.$white;
-  border: 1px solid colors.$border;
-  border-radius: 12px;
-  padding: 20px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px 20px;
 
   &__value {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
-    color: colors.$primary;
+    color: var(--color-primary);
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   &__label {
     font-size: 13px;
-    color: colors.$text-light;
+    color: var(--color-text-secondary);
     font-weight: 500;
   }
 }

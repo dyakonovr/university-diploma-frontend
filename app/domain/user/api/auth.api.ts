@@ -1,4 +1,5 @@
 import type { User } from '~/domain/user/models/user.types';
+import type { Response } from '~/shared/types/core/request.types';
 import {
   API_BASES,
   API_PREFIX,
@@ -13,7 +14,7 @@ export function refreshTokens() {
 }
 
 export function getCurrentUser() {
-  return request<{ data: User }>({
+  return request<Response<User>>({
     baseUrl: 'MAIN',
     url: '/auth/me',
     method: 'GET',

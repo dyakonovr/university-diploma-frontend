@@ -10,6 +10,9 @@
       </div>
     </router-link>
 
+    <!-- Workspace switcher -->
+    <sidebar-workspace-switcher :is-collapsed="isCollapsed" />
+
     <!-- Top groups -->
     <div
       class="sidebar-menu__groups"
@@ -47,6 +50,7 @@ import LogoCollapsed from "@/assets/logos/logo-secretary-collapsed.svg";
 import useSidebarMenuStore from "~/shared/stores/sidebar-menu";
 
 import SidebarMenuGroup from "./AccountSidebarMenuGroup.vue";
+import SidebarWorkspaceSwitcher from "./SidebarWorkspaceSwitcher.vue";
 import type {
   SidebarMenuGroup as SidebarMenuGroupType,
   SidebarMenuGroupChildren,

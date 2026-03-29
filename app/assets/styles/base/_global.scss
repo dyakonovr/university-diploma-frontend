@@ -1,6 +1,6 @@
-@use 'colors' as colors;
-@use 'offsets' as offsets;
-@use 'variables' as variables;
+@use "colors" as colors;
+@use "offsets" as offsets;
+@use "variables" as variables;
 
 html,
 body {
@@ -12,23 +12,15 @@ html {
 }
 
 body {
-  --color: #{colors.$text};
-  --background-color: #{colors.$background};
-
   display: flex;
   flex-direction: column;
   font-family: variables.$font-family;
   font-weight: 400;
-  background-color: var(--background-color);
-  color: var(--color);
+  background-color: var(--color-background);
+  color: var(--color-text);
   overflow-x: hidden;
   min-width: 360px;
   transition: background-color 0.3s ease-in-out;
-}
-
-[data-theme='dark'] body {
-  --color: #{colors.$white};
-  --background-color: #{colors.$text};
 }
 
 .main {

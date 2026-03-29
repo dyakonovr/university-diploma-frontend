@@ -1,45 +1,37 @@
-import type { Theme } from '~/shared/types/ui/theme.types';
+import type { Theme } from "~/shared/types/ui/theme.types";
+
+const VALID_THEMES: Theme[] = ["light", "professional", "dark"];
 
 type ThemeState = {
   theme: Theme;
 };
 
-export const useThemeStore = defineStore('theme', {
+export const useThemeStore = defineStore("theme", {
   state: (): ThemeState => ({
-    theme: 'light',
+    theme: "professional",
   }),
 
   actions: {
     setTheme(value: Theme) {
       this.theme = value;
-      localStorage.setItem('theme', value);
+      localStorage.setItem("theme", value);
     },
 
     toggleTheme() {
-      const nextTheme: Theme = this.theme === 'light' ? 'dark' : 'light';
-      this.theme = nextTheme;
-      localStorage.setItem('theme', nextTheme);
+      const currentIndex = VALID_THEMES.indexOf(this.theme);
+      const nextIndex = (currentIndex + 1) % VALID_THEMES.length;
+      this.setTheme(VALID_THEMES[nextIndex]);
     },
 
     setInitialTheme() {
-      // 1. localStorage
-      const savedTheme = localStorage.getItem('theme') as Theme | null;
-      if (savedTheme === 'light' || savedTheme === 'dark') {
+      const savedTheme = localStorage.getItem("theme") as Theme | null;
+      if (savedTheme && VALID_THEMES.includes(savedTheme)) {
         this.theme = savedTheme;
         return;
       }
 
-      // 2. системная тема
-      if (window.matchMedia) {
-        const prefersDark = window.matchMedia(
-          '(prefers-color-scheme: dark)',
-        ).matches;
-        this.theme = prefersDark ? 'dark' : 'light';
-        return;
-      }
-
-      // 3. дефолт
-      this.theme = 'light';
+      // Default to professional
+      this.theme = "professional";
     },
   },
 });

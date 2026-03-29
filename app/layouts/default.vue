@@ -22,16 +22,11 @@
             <span class="account-layout__burger-line" />
           </button>
 
-          <router-link
-            to="/workspaces"
-            class="account-layout__mobile-logo"
-          >
+          <router-link to="/workspaces" class="account-layout__mobile-logo">
             <logo-full class="account-layout__mobile-logo-svg" />
           </router-link>
         </header>
-        <main
-          id="main-element"
-          class="account-layout__main">
+        <main id="main-element" class="account-layout__main">
           <slot v-if="$slots.default" />
           <nuxt-page v-else />
         </main>
@@ -44,12 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
 
-import LogoFull from '@/assets/logos/logo-artweb.svg';
-import AccountMobileSidebar from '~/components/layouts/account/AccountMobileSidebar.vue';
-import SidebarMenu from '~/components/layouts/account/sidebar/AccountSidebarMenu.vue';
-import useSidebarMenuStore from '~/shared/stores/sidebar-menu';
+import LogoFull from "@/assets/logos/logo-secretary.svg";
+import AccountMobileSidebar from "~/components/layouts/account/AccountMobileSidebar.vue";
+import SidebarMenu from "~/components/layouts/account/sidebar/AccountSidebarMenu.vue";
+import useSidebarMenuStore from "~/shared/stores/sidebar-menu";
 
 const sidebarMenuStore = useSidebarMenuStore();
 
@@ -59,9 +54,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-@use '/assets/styles/base/colors' as colors;
-@use '/assets/styles/components/sidebar' as sidebar;
-
 .account-layout {
   width: 100%;
   height: 100vh;
@@ -82,7 +74,7 @@ onBeforeUnmount(() => {
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: colors.$white;
+    background-color: var(--color-surface);
     width: 100%;
     min-width: 0;
     height: 100%;
@@ -95,7 +87,7 @@ onBeforeUnmount(() => {
     padding: 0 20px;
     height: 49px;
     flex-shrink: 0;
-    border-bottom: 1px solid colors.$border;
+    border-bottom: 1px solid var(--color-border);
   }
 
   &__burger {
@@ -117,7 +109,7 @@ onBeforeUnmount(() => {
     &-line {
       width: 100%;
       height: 2px;
-      background-color: colors.$text;
+      background-color: var(--color-text);
       border-radius: 1px;
     }
   }
@@ -132,11 +124,8 @@ onBeforeUnmount(() => {
     }
 
     &-svg {
-      --width: #{sidebar.$sidebar-menu-uncollapsed-logo-width};
-
-      min-width: var(--width);
-      max-width: var(--width);
-      height: sidebar.$sidebar-menu-logo-height;
+      height: 22px;
+      width: auto;
     }
   }
 
@@ -144,7 +133,7 @@ onBeforeUnmount(() => {
     position: relative;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, colors.$background 0%, #eef2ff 100%);
+    background-color: var(--color-background);
     height: 100%;
     min-height: 0;
     padding: 20px;

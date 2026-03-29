@@ -121,6 +121,7 @@ const logout = () => {
 function doActionByKey(key: string) {
   if (key === 'logout') logout();
   if (key === 'collapse') sidebarMenuStore.toggleCollapse();
+  if (key === 'back-to-hub') router.push('/workspaces');
 }
 
 function isAdminRoute(r: RouteRecordRaw): boolean {

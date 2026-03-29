@@ -2,6 +2,7 @@ import { getTasks } from '~/domain/task/api/task.api';
 import type { Task } from '~/domain/task/models/task.types';
 import { useCustomToast } from '~/shared/composables/useCustomToast';
 import type { ResponsePagination } from '~/shared/types/core/request.types';
+import { mapPagination } from '~/shared/utils/core/mapPagination';
 import { objectToQueryString } from '~/shared/utils/core/objectToQueryString';
 import { showRequestError } from '~/shared/utils/core/show-request-error';
 
@@ -35,7 +36,7 @@ function useTasksData(
       const response = await getTasks(workspaceId, params);
 
       data.value = response.data;
-      meta.value = response.meta.pagination;
+      meta.value = mapPagination(response.meta.pagination);
     } catch (e) {
       console.error(e);
       toastError('Ошибка при получении задач');

@@ -10,6 +10,7 @@ export type UserCreate = UserBase & {
 };
 
 export type User = BaseEntity & UserBase & {
+  is_admin: boolean;
   created_at: string;
   updated_at: string;
 };
