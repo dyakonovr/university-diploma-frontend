@@ -1,32 +1,17 @@
-1. Why i can't edit, delete comment in task? — BACKEND ISSUE: no DELETE/PUT routes for comments in router.go. Frontend delete button exists but backend endpoint is missing.
-2. Where is task progress? — DONE (was already implemented in form)
-3. Fix command session, if we doesn't have actions — DONE: empty actions now show human_response as system message
-4. user can't approve failed command — DONE: added 'failed' status, retry button in CommandPreview
-5. New session button doesn't work — DONE: now clears chat messages
-6. In task show "last_synced_at" — DONE: moved to integration page (last_synced_at + token_expires_at)
-7. We need to assignee member to task — DONE: added assignee select to task form
-
-Also we have features list from backend:
+1. "Все вокрспейсы" - arrow color should be equal with text, now black
+2. Command input readonly, while service is working - not disabled
+3. Add some gap between sidebar buttons
+4. Add global line-height: 1.25
+5. From all form remove 
 ```
-## FRONTEND CHANGES NEEDED
-
-### Task list/detail pages
-- [x] Show `external_link` field — render as clickable link (icon + "Open in {source}") when present
-- [x] Show `external_id` and `external_source` badges for synced tasks
-
-### Calendar event list/detail pages
-- [ ] Show `external_link` field — render as clickable link when present
-- [ ] Show `external_id` and `external_source` for synced events
-
-### Integration management page
-- [x] Show `last_synced_at` — display "Last synced: {time}" for each integration
-- [x] Show `token_expires_at` — display token expiry countdown or "Expired" badge
-- [x] Add "Regenerate Token" button that calls `POST /integrations/{id}/regenerate-token`
-- [x] After regeneration, show new `tokenExpiresAt` from response
-
-### Command (NL) page
-- [x] Handle `status: "failed"` — show retry button (call confirm again)
-- [x] For commands with empty actions but human_response (like "список задач"), show the response text without confirm/reject buttons
-- [ ] Update fallback "I didn't understand" message display (now includes command list)
+<form-container :loading="...">
+  <template v-if="!loading"></template>
+</form-container>
 ```
-You can check diff of backend, @/../university-diploma-backend
+Template with v-if doesn't needed
+6. If we have in form select with other entity and pagination, we need to use useSelectInfiniteScroll
+7. Why after i send first message in command session, i didn't see session it sidebar? Also will be good, that user can't delete session, if it's actually working
+8. Add member, real name of integration in task table. Add filters by: integration, name,  
+9. In command session window, after confirm i want to see links to confirmed entities
+
+If something needed, you can write md-report for backend with explanation
