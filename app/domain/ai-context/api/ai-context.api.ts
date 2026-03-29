@@ -1,7 +1,8 @@
-import type { QueryParams, Response,ResponseWithPagination } from '~/shared/types/core/request.types';
+import type { EntityId } from '~/shared/types/core/base-entity.types';
+import type { QueryParams, Response } from '~/shared/types/core/request.types';
 import request from '~/shared/utils/core/request.client';
-import type { AiContext, AiContextCreate } from "../models/ai-context.types";
-import type { EntityId } from "~/shared/types/core/base-entity.types";
+
+import type { AiContext, AiContextCreate } from '../models/ai-context.types';
 
 export function getAiContext(
   workspaceId: EntityId,
@@ -10,7 +11,7 @@ export function getAiContext(
 ) {
   return request<Response<AiContext>>({
     baseUrl: 'MAIN',
-    url: `/workspace/${workspaceId}/context`,
+    url: `/workspaces/${workspaceId}/context`,
     method: 'GET',
     params,
     signal,
@@ -23,7 +24,7 @@ export function updateAiContext(
 ) {
   return request<Response<AiContext>>({
     baseUrl: 'MAIN',
-    url: `/workspace/${workspaceId}/context`,
+    url: `/workspaces/${workspaceId}/context`,
     method: 'PUT',
     data,
   });

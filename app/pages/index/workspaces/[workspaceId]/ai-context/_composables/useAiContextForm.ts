@@ -17,8 +17,9 @@ function useAiContextForm(workspaceId: string) {
       const response = await getAiContext(workspaceId);
       context.value = response.data;
       content.value = response.data.content;
-    } catch {
-      content.value = '';
+    } catch(e) {
+      toastError('Ошибка при получении контекста');
+      showRequestError(e);
     } finally {
       loading.value = false;
     }

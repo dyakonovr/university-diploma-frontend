@@ -102,7 +102,7 @@ const getActionLabel = (type: CommandActionType) =>
     }
 
     &--failed {
-      color: colors.$error;
+      color: colors.$danger;
     }
   }
 
@@ -121,7 +121,7 @@ const getActionLabel = (type: CommandActionType) =>
 
   &__error {
     font-size: 12px;
-    color: colors.$error;
+    color: colors.$danger;
   }
 }
 </style>

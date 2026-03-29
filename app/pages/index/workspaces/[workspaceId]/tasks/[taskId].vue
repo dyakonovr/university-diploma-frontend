@@ -3,58 +3,57 @@
     <account-form-header @get-back="getBack" />
 
     <form-container :loading="loading">
-      <template v-if="!loading">
-        <input-ui
-          v-model="formData.title"
-          label="Название"
-          :required="true"
-          :input-props="{ placeholder: 'Название задачи', disabled: saving }"
-          :error="formErrors.title"
-        />
-        <editor-element-ui
-          v-model="formData.description"
-          label="Описание"
-          :disabled="saving"
-        />
-        <select-ui
-          v-model="formData.assignee_id"
-          label="Исполнитель"
-          :options="memberOptions"
-          :select-props="{ placeholder: 'Не назначен', disabled: saving }"
-        />
-        <select-ui
-          v-model="formData.priority"
-          label="Приоритет"
-          :options="PRIORITY_OPTIONS"
-          :searchable="false"
-          :select-props="{ disabled: saving }"
-        />
-        <select-ui
-          v-model="formData.status"
-          label="Статус"
-          :options="STATUS_OPTIONS"
-          :searchable="false"
-          :select-props="{ disabled: saving || !isEditMode }"
-        />
-        <input-ui
-          v-model="formData.progress"
-          label="Прогресс"
-          :input-props="{
-            type: 'number',
-            min: 0,
-            max: 100,
-            placeholder: '0',
-            disabled: saving || !isEditMode,
-          }"
-          :clearable="false"
-          :error="formErrors.progress"
-        />
-        <datepicker-ui
-          v-model="formData.deadline"
-          label="Дедлайн"
-          :disabled="saving"
-        />
-      </template>
+      <input-ui
+        v-model="formData.title"
+        label="Название"
+        :required="true"
+        :input-props="{ placeholder: 'Название задачи', disabled: saving }"
+        :error="formErrors.title"
+      />
+      <editor-element-ui
+        v-model="formData.description"
+        label="Описание"
+        :disabled="saving"
+      />
+      <select-ui
+        v-model="formData.assignee_id"
+        label="Исполнитель"
+        :options="memberOptions"
+        :select-props="{ placeholder: 'Не назначен', disabled: saving }"
+      />
+
+      <select-ui
+        v-model="formData.priority"
+        label="Приоритет"
+        :options="PRIORITY_OPTIONS"
+        :searchable="false"
+        :select-props="{ disabled: saving }"
+      />
+      <select-ui
+        v-model="formData.status"
+        label="Статус"
+        :options="STATUS_OPTIONS"
+        :searchable="false"
+        :select-props="{ disabled: saving || !isEditMode }"
+      />
+      <input-ui
+        v-model="formData.progress"
+        label="Прогресс"
+        :input-props="{
+          type: 'number',
+          min: 0,
+          max: 100,
+          placeholder: '0',
+          disabled: saving || !isEditMode,
+        }"
+        :clearable="false"
+        :error="formErrors.progress"
+      />
+      <datepicker-ui
+        v-model="formData.deadline"
+        label="Дедлайн"
+        :disabled="saving"
+      />
     </form-container>
 
     <form-buttons
@@ -224,9 +223,13 @@ const formatDate = (dateStr: string) => {
 };
 
 onBeforeMount(async () => {
-  await getData();
-  if (isEditMode.value) {
-    await fetchComments();
+  try {
+    await getData();
+    if (isEditMode.value) {
+      await fetchComments();
+    }
+  } catch (error) {
+    console.error('@', error);
   }
 });
 

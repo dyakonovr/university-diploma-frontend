@@ -4,23 +4,23 @@ import type {
   TaskStatus,
 } from '~/domain/task/models/task.types';
 import { getWorkspaceMembers } from '~/domain/workspace/api/workspace-member.api';
-import { useCustomToast } from "~/shared/composables/useCustomToast";
-import useGetBack from "~/shared/composables/useGetBack";
-import { ERROR_REQUIRED_FIELD } from "~/shared/constants/core/validation-errors.const";
-import { RequestError } from "~/shared/errors/request.errors";
-import type { EntityId } from "~/shared/types/core/base-entity.types";
+import { useCustomToast } from '~/shared/composables/useCustomToast';
+import useGetBack from '~/shared/composables/useGetBack';
+import { ERROR_REQUIRED_FIELD } from '~/shared/constants/core/validation-errors.const';
+import { RequestError } from '~/shared/errors/request.errors';
+import type { EntityId } from '~/shared/types/core/base-entity.types';
 import type {
   FormErrors,
   FormFields,
   FormRules,
-} from "~/shared/types/core/form-validation.types";
+} from '~/shared/types/core/form-validation.types';
 import type { SelectOption } from '~/shared/types/ui/select.types';
 import {
   clearFormValidation,
   setBackendErrors,
   validateForm,
-} from "~/shared/utils/core/formValidation";
-import { showRequestError } from "~/shared/utils/core/show-request-error";
+} from '~/shared/utils/core/formValidation';
+import { showRequestError } from '~/shared/utils/core/show-request-error';
 
 type TaskForm = {
   title: string;
@@ -52,20 +52,20 @@ function useTaskForm(workspaceId: string) {
     title: null,
     description: null,
     assignee_id: null,
-    priority: "medium",
-    status: "backlog",
+    priority: 'medium',
+    status: 'backlog',
     progress: 0,
     deadline: null,
   });
 
   const formErrors = reactive<FormErrors<TaskForm>>({
-    title: "",
-    description: "",
-    assignee_id: "",
-    priority: "",
-    status: "",
-    progress: "",
-    deadline: "",
+    title: '',
+    description: '',
+    assignee_id: '',
+    priority: '',
+    status: '',
+    progress: '',
+    deadline: '',
   });
 
   const formRules = ref<FormRules<TaskForm>>({
@@ -91,13 +91,16 @@ function useTaskForm(workspaceId: string) {
   };
 
   const getData = async () => {
-    await loadMembers();
+    try {
+      await loadMembers();
 
-    if (route.params.taskId && route.params.taskId !== "create") {
-      editId.value = route.params.taskId as EntityId;
-      loading.value = true;
-      try {
-        const response = await getTask(editId.value, workspaceId);
+      if (route.params.taskId && route.params.taskId !== 'create') {
+        const taskId = route.params.taskId as EntityId;
+
+        editId.value = taskId;
+        loading.value = true;
+        
+        const response = await getTask(taskId, workspaceId);
         const task = response.data;
         formData.value = {
           title: task.title,
@@ -111,12 +114,12 @@ function useTaskForm(workspaceId: string) {
         externalLink.value = task.external_link ?? null;
         externalId.value = task.external_id ?? null;
         externalSource.value = task.external_source ?? null;
-      } catch (e) {
-        toastError("Ошибка при получении задачи");
-        showRequestError(e);
-      } finally {
-        loading.value = false;
       }
+    } catch (e) {
+      toastError('Ошибка при получении задачи');
+      showRequestError(e);
+    } finally {
+      loading.value = false;
     }
   };
 
@@ -126,7 +129,7 @@ function useTaskForm(workspaceId: string) {
       formRules.value as Record<string, () => boolean>,
     );
     if (!valid) {
-      toastError("Ошибка валидации");
+      toastError('Ошибка валидации');
       return;
     }
 
@@ -164,9 +167,9 @@ function useTaskForm(workspaceId: string) {
     } catch (e) {
       if (e instanceof RequestError && e.statusCode === 422) {
         setBackendErrors(formErrors, e.errors);
-        toastError("Ошибка валидации формы");
+        toastError('Ошибка валидации формы');
       } else {
-        toastError("Ошибка при сохранении задачи");
+        toastError('Ошибка при сохранении задачи');
         showRequestError(e);
       }
     } finally {
